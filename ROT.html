@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-            <title>Hello, World! - A-Frame</title>
+            <title>Rules of Third</title>
         <meta name="description" content="Hello, World! - A-Frame">
         <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
         <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
@@ -90,10 +90,13 @@
                     <a-cylinder position="0 0.5 0" radius="4" height="1.6" side="back" open-ended="true" color="#FFF"></a-cylinder>
                 </a-entity>
 
-                <a-entity id="portal" position="0 1 -3" link="href:Framing.html; title:↓;" geometry="primitive:circle;segments:64" material="visible:false;shader:portal;side:double">
-                    <a-entity text="value: Framing; color:#000; width:5; align:center; font:mozillavr;" position="0 1 0"></a-entity>                        
-                    <a-image src="#img_shadow" position="0 -1 0" rotation="-90 0 0" scale="1 1 1"></a-image> 
+                <a-entity id="portal" position="0 1 -3">
+                    <a-entity text="value: Framing; color:#000; width:5; align:center; font:mozillavr;" position="0 1 0"></a-entity>
+                        
+                    <a-image src="#img_shadow" position="0 -1 0" rotation="-90 0 0" scale="1 1 1"></a-image>
+
                     <a-sphere id="clickable" cursor-listener data-link-to="#scene_landing" radius="0.6" material="src: #thumb_landing; repeat: 1 1; roughness: 2;"  color="#ffffff" opacity="1" roughness="0.8">
+
                         <a-animation attribute="scale" begin="mouseenter" dur="300" to="1.1 1.1 1.1"></a-animation>
                         <a-animation attribute="scale" begin="mouseleave" dur="300" to="1 1 1"></a-animation>
 
@@ -112,7 +115,7 @@
                 </a-entity>
 
 
-                <a-entity id="portal" position="0 1 2.5" rotation="0 -180 0" >
+                <a-entity id="portal" position="0 1 2.5" rotation="0 -180 0">
                     <a-entity text="value: Back to main; color:#000; width:5; align:center; font:mozillavr;" position="0 1 0"></a-entity>
                         
                     <a-image src="#img_shadow" position="0 -1 0" rotation="-90 0 0" scale="1 1 1"></a-image>
@@ -129,9 +132,9 @@
                     </a-sphere>
                 </a-entity>
                 
-                <a-entity id="portal" position="2 1 -2.5" rotation="0 -45 0" link="href:Angles.html; title:↓;" geometry="primitive:circle;segments:64" material="visible:false;shader:portal;side:double">
+                <a-entity id="portal" position="2 1 -2.5" rotation="0 -45 0">
                     <a-entity text="value: Angle; color:#000; width:5; align:center; font:mozillavr;" position="0 1 0"></a-entity>
-                    
+                        
                     <a-image src="#img_shadow" position="0 -1 0" rotation="-90 0 0" scale="1 1 1"></a-image>
 
                     <a-sphere id="clickable" cursor-listener data-link-to="#scene_landing" radius="0.6" material="src: #thumb_landing; repeat: 1 1; roughness: 2;"  color="#ffffff" opacity="1" roughness="0.8">
@@ -146,7 +149,7 @@
                     </a-sphere>
                 </a-entity>
                 
-             <a-entity id="portal" position="-2 1 -2.5"  rotation="0 45 0" link="href:ROT.html; title:↓;" geometry="primitive:circle;segments:64" material="visible:false;shader:portal;side:double">
+             <a-entity id="portal" position="-2 1 -2.5"  rotation="0 45 0">
                     <a-entity text="value: Rules of Third; color:#000; width:5; align:center; font:mozillavr;" position="0 1 0"></a-entity>
                         
                     <a-image src="#img_shadow" position="0 -1 0" rotation="-90 0 0" scale="1 1 1"></a-image>

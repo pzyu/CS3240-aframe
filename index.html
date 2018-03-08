@@ -6,6 +6,7 @@
         <meta name="description" content="Hello, World! - A-Frame">
         <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
         <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
+        <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
         <script src="scripts/script.js"></script>
     </head>
     <body>
@@ -27,6 +28,11 @@
                 <img id="thumb_landing" src="assets/images/background.png">
                 
             </a-assets>
+
+            <!-- Environment -->
+            <!-- Documentation:
+            https://github.com/feiss/aframe-environment-component -->
+            <a-entity environment="preset: forest; playArea: 4; ground: flat;"></a-entity>
             
             <a-entity id="scene_landing">
                 <!--Background and lights-->
@@ -36,9 +42,9 @@
 <!--                <a-sky id="image-360" radius="10" src="#city"></a-sky>-->
 
                 <!--Cylinder-->
-                <a-entity>
+                <!-- <a-entity>
                     <a-cylinder position="0 0.5 0" radius="4" height="1.6" side="back" open-ended="true" color="#FFF"></a-cylinder>
-                </a-entity>
+                </a-entity> -->
 
                 <!--Logo-->
                 <a-curvedimage src="#img_logo" radius="5" theta-length="36" height="2" position="0 2.6 0" opacity="0.8">
@@ -86,9 +92,9 @@
                 <a-sky color="#ECECEC"></a-sky>
 
                 <!--Cylinder-->
-                <a-entity>
+                <!-- <a-entity>
                     <a-cylinder position="0 0.5 0" radius="4" height="1.6" side="back" open-ended="true" color="#FFF"></a-cylinder>
-                </a-entity>
+                </a-entity> -->
          
                 <a-entity id="portal" position="0 1 -3">
                     <a-entity text="value: Back to main; color:#000; width:5; align:center; font:mozillavr;" position="0 1 0"></a-entity>
@@ -164,7 +170,6 @@
                 </a-plane>
                 
             </a-camera>
-            
         </a-scene>
     </body>
 </html>

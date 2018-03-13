@@ -19,5 +19,8 @@
     "aframe-scene",
     "webvr",
     "vr"
-  ]
+  ],
+  "dependencies": {
+    "aframe-extras": "^3.13.1"
+  }
 }

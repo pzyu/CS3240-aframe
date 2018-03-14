@@ -7,6 +7,8 @@
         <script src="scripts/aframe-v0.7.0.js"></script>
         <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
         <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+
+        <script src="scripts/script.js"></script>
     </head>
     <body>
         <a-scene>
@@ -31,9 +33,7 @@
             
             <a-entity id="scene_landing">
                 <!--Background and lights-->
-                <a-light type="directional" color="#fff" intensity="0.2" position="-1 2 1"></a-light>
-<!--                <a-light type="ambient" color="#fff"></a-light>-->
-<!--                <a-sky color="#ECECEC"></a-sky>-->
+                <a-light type="directional" color="#fff" intensity="0.1" position="-1 2 1"></a-light>
                 <!--<a-sky id="image-360" radius="10" src="#city"></a-sky>-->
 
                 <!--Cylinder-->
@@ -42,17 +42,17 @@
                 </a-entity> -->
 
                 <!--Logo-->
-                <a-curvedimage src="#img_logo" radius="5" theta-length="36" height="2" position="0 2.6 0" opacity="0.8">
+                <a-curvedimage src="#img_logo" radius="5" theta-length="36" height="2" position="0 2.6 0" opacity="1.0">
                     <a-animation attribute="rotation" from="0 10 0" to="0 200 0" delay="500" dur="1000"></a-animation>
                 </a-curvedimage>
 
                 <!--Pick-->
-                <a-curvedimage src="#img_pick" radius="5" theta-length="42" height="0.5" position="0 3 0" opacity="0.8">
+                <a-curvedimage src="#img_pick" radius="5" theta-length="42" height="0.5" position="0 3 0" opacity="1.0">
                     <a-animation attribute="rotation" from="0 10 0" to="0 125 0" delay="1000" dur="1000"></a-animation>
                 </a-curvedimage>
 
                 <!--Instructions-->
-                <a-curvedimage src="#img_instructions" radius="2" theta-length="24" height="0.5" position="0 1 0" opacity="0.6">
+                <a-curvedimage src="#img_instructions" radius="5" theta-length="24" height="1" position="0 1 0" opacity="1.0">
                     <a-animation attribute="rotation" from="0 360 0" to="0 212 0" delay="1000" dur="1000"></a-animation>
                 </a-curvedimage>
 
@@ -81,10 +81,6 @@
             </a-entity>
             
             <a-entity id="scene_portals" visible="false">
-                <!--Background and lights-->
-                <a-light type="directional" color="#fff" intensity="0.2" position="-1 2 1"></a-light>
-                <a-light type="ambient" color="#fff"></a-light>
-                <a-sky color="#ECECEC"></a-sky>
 
                 <!--Cylinder-->
                 <!-- <a-entity>
@@ -175,13 +171,11 @@
                     <a-animation attribute="scale" begin="click" from="0.1 0.1 0.1" to="1 1 1" dur="150"></a-animation>
                 </a-cursor>
                 
-                <a-plane id="transition" position="0 0 -0.1" color="black" material="opacity: 0">
+                <a-plane id="transition" position="0 0 -0.1" material="shader: flat" color="white" material="opacity: 0">
                     <a-animation id="transitionAnimation" attribute="material.opacity" begin="fade" from="1" to="0" delay="0" dur="250" direction="alternate"></a-animation>
                 </a-plane>
                 
             </a-camera>
         </a-scene>
-        
-        <script src="scripts/script.js"></script>
     </body>
 </html>

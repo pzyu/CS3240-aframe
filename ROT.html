@@ -5,11 +5,10 @@
             <title>Photographic Composition</title>
         <meta name="description" content="Photographic Composition">
         <script src="scripts/aframe-v0.7.0.js"></script>
-        <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
+        <script src="scripts/aframe-extras.min.js"></script>
         <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
-        <script src="scripts/aframe-aabb-collider-component.min.js"></script>
         
-        <script src="scripts/script.js"></script>
+        <script src="scripts/script-ROT.js"></script>
     </head>
     <body>
         <a-scene>
@@ -86,30 +85,72 @@
 
             </a-entity>
             
-            <!--Model-->
-            <a-cylinder scale="0.01 0.01 0.01" position="-1 0.2 -5" opacity="0.0" height="100" radius="50">
-                <a-entity gltf-model="#model_2b" >
+            <!--Use large cylinders as colliders to offset raycast-->
+            <a-cylinder cursor-listener class="gameObject" scale="1 1 1" position="-5 0.2 -5" height="10" radius="2" material="transparent: true; opacity: 0.1">
+                <a-entity scale="0.01 0.01 0.01" gltf-model="#model_2b" >
                 </a-entity>
             </a-cylinder>
             
-            <a-box scale="1 2 1" position="2 1 -8"></a-box>
+            <a-cylinder cursor-listener class="gameObject" scale="1 1 1" position="2 1 -8" height="10" radius="2" material="transparent: true; opacity: 0.1">
+                <a-box scale="1 2 1"></a-box>
+            </a-cylinder>
             
-            <a-sphere scale="2 2 2" position="16 5 -14"></a-sphere>
+            <a-cylinder cursor-listener class="gameObject" scale="1 1 1" position="16 5 -14" height="10" radius="2" material="transparent: true; opacity: 0.1">
+                <a-sphere scale="2 2 2"></a-sphere>
+            </a-cylinder>
 
-            <a-camera id="camera">
-                <a-cursor mousedown-check id="cursor" color="#000" raycaster="objects: .clickable">
-                    <a-animation attribute="material.color" begin="mouseenter" from="#000" to="#00ff00" dur="100"></a-animation>
-                    <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#000" dur="100"></a-animation>
-                    <a-animation attribute="scale" begin="click" from="0.1 0.1 0.1" to="1 1 1" dur="150"></a-animation>
-                </a-cursor>
+            <a-camera collider-check id="camera">
+                <!-- Center grids-->
+                <a-entity cursor id="centerMiddle" mousedown-check position="0 0 -0.1" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .clickable, .gameObject">
+                    <a-animation attribute="material.color" begin="mouseenter" from="#fff" to="#00ff00" dur="100"></a-animation>
+                    <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#fff" dur="100"></a-animation>
+                    <a-animation attribute="scale" begin="success" from="1 1 1" to="1.5 1.5 1.5" dur="1000" fill="backwards" easing="ease-elastic"></a-animation>
+                    <a-animation attribute="material.color" begin="failure" from="#00ff00" to="#ff0000" dur="1000"></a-animation>
+                </a-entity>
                 
-<!--
-                <a-box id="self" aabb-collider="objects: a-box, a-cylinder, a-sphere" material="shader: flat" opacity="0.7" scale="1 10 10" position="-1 0 -6">
-                    <a-animation attribute="material.color" begin="hit" from="#fff" to="#00ff00" fill="backwards"></a-animation>
-                </a-box>
--->
+                <a-entity cursor id="centerTop" position="0 0.06 -0.1" rotation="31 0 0" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .gameObject; showLine: true">
+                    <a-animation attribute="material.color" begin="mouseenter" from="#fff" to="#00ff00" dur="100"></a-animation>
+                    <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#fff" dur="100"></a-animation>    
+                </a-entity>
                 
-                <a-plane id="transition" position="0 0 -0.1" material="shader: flat" color="white" material="opacity: 0">
+                <a-entity cursor id="centerBottom" position="0 -0.06 -0.1" rotation="-31 0 0" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .gameObject; showLine: true">
+                    <a-animation attribute="material.color" begin="mouseenter" from="#fff" to="#00ff00" dur="100"></a-animation>
+                    <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#fff" dur="100"></a-animation>    
+                </a-entity>
+                
+                <!-- Right grids-->
+                <a-entity cursor id="rightMiddle" position="0.1 0 -0.1" rotation="0 -45 0" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .gameObject; showLine: true">
+                    <a-animation attribute="material.color" begin="mouseenter" from="#fff" to="#00ff00" dur="100"></a-animation>
+                    <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#fff" dur="100"></a-animation>    
+                </a-entity>
+                
+                <a-entity cursor id="rightTop" position="0.1 0.06 -0.1" rotation="23 -45 0" geometry="primitive: sphere; radius: 0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .gameObject; showLine: true">
+                    <a-animation attribute="material.color" begin="mouseenter" from="#fff" to="#00ff00" dur="100"></a-animation>
+                    <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#fff" dur="100"></a-animation>    
+                </a-entity>
+                
+                <a-entity cursor id="rightBottom" position="0.1 -0.06 -0.1" rotation="-23 -45 0" geometry="primitive: sphere; radius: 0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .gameObject; showLine: true">
+                    <a-animation attribute="material.color" begin="mouseenter" from="#fff" to="#00ff00" dur="100"></a-animation>
+                    <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#fff" dur="100"></a-animation>    
+                </a-entity>
+                
+                <!-- Left grids-->
+                <a-entity cursor id="leftMiddle" position="-0.1 0 -0.1" rotation="0 45 0" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .gameObject; showLine: true">
+                    <a-animation attribute="material.color" begin="mouseenter" from="#fff" to="#00ff00" dur="100"></a-animation>
+                    <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#fff" dur="100"></a-animation>    
+                </a-entity>
+                
+                <a-entity cursor id="leftTop" position="-0.1 0.06 -0.1" rotation="23 45 0" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .gameObject; showLine: true">
+                    <a-animation attribute="material.color" begin="mouseenter" from="#fff" to="#00ff00" dur="100"></a-animation>
+                    <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#fff" dur="100"></a-animation>    
+                </a-entity>
+                
+                <a-entity cursor id="leftBottom" position="-0.1 -0.06 -0.1" rotation="-23 45 0" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .gameObject; showLine: true">
+                    <a-animation attribute="material.color" begin="mouseenter" from="#fff" to="#00ff00" dur="100"></a-animation>
+                    <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#fff" dur="100"></a-animation>    
+                </a-entity>
+                
+                <a-plane class="not" id="transition" position="0 0 5" material="shader: flat" color="white" material="opacity: 0">
                     <a-animation id="transitionAnimation" attribute="material.opacity" begin="fade" from="1" to="0" delay="0" dur="250" direction="alternate"></a-animation>
                 </a-plane>
                 

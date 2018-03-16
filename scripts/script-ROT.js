@@ -2,11 +2,10 @@
 AFRAME.registerComponent('cursor-listener', {
     init: function () {
         this.el.addEventListener('click', function (evt) {
-            //console.log('I was clicked at: ', evt.detail.intersection.point);
-            //var test = document.querySelector("#image-360");
-            //test.setAttribute("src", "#sechelt");
-            //console.log(evt.detail.target.getAttribute("data-dest"));
-            transition(evt.detail.target.getAttribute("data-link-to"));
+            if (isValidGridPoint(evt.detail.cursorEl.id)) {
+                gridReferences.push(evt.detail.cursorEl.id);   
+            }
+            //transition(evt.detail.target.getAttribute("data-link-to"));
         });
     }
 });
@@ -34,6 +33,15 @@ AFRAME.registerComponent('mousedown-check', {
         this.el.addEventListener('mouseup', function (evt) {
             currentMouseStatus = false;
             mainCamera.getAttribute('wasd-controls').moveTowards = false;
+            
+            setTimeout(function() {
+                // Only check if photo is valid on cursor up
+                if (gridReferences.length > 0 && isValidPhoto()) {
+                    console.log ("Valid photo!");
+                } else {
+                    console.log("Invalid!");
+                }
+            }, 100);
         });
     }
 });
@@ -62,9 +70,37 @@ window.onload = function (e) {
     // Offset with some delay otherwise value will get overriden before it's complete
     transitionDuration = parseInt(document.querySelector('#transitionAnimation').getAttribute("dur")) + 100;
     fade();
-    if (getPageName() == "index.html") {
-        hideScene("#scene_portals");
+}
+
+var gridPoints = ["#leftTop", "#leftMiddle", "#leftBottom", "#centerTop", "#centerMiddle", "#centerBottom", "#rightTop", "#rightMiddle", "#rightBottom"];
+var gridReferences = [];
+
+function isValidPhoto() {
+    var isValid = true;
+    var currentPos = "";
+    for (index in gridReferences) {
+        if (currentPos == "") {
+            currentPos = gridReferences[index][0];
+        } else if (currentPos != gridReferences[index][0]) {
+            isValid = false;
+            gridReferences.length = 0;
+            document.querySelector("#centerMiddle").emit("failure");
+
+            break;
+        }
     }
+    
+    if (gridReferences.length == 0) {
+        isValid = false;
+    }
+    document.querySelector("#centerMiddle").emit("success");
+    
+    gridReferences.length = 0;
+    return isValid;
+}
+
+function isValidGridPoint(element) {
+    return gridPoints.indexOf("#" + element) > -1;
 }
 
 function getPageName() {

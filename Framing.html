@@ -4,9 +4,12 @@
         <meta charset="utf-8">
             <title>Framing</title>
         <meta name="description" content="Hello, World! - A-Frame">
-        <script src="scripts/aframe-v0.7.0.js"></script>
-        <script src="scripts/aframe-extras.min.js"></script>
+        <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+        <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
+        <script src="scripts/script.js"></script>
         <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+      <script src="https://rawgit.com/protyze/aframe-curve-component/master/dist/aframe-curve-component.min.js"></script>
+      <script src="https://rawgit.com/protyze/aframe-alongpath-component/master/dist/aframe-alongpath-component.min.js"></script>
     </head>
     <body>
             <a-scene physics="debug: true">
@@ -21,23 +24,38 @@
 -->
                 
             </a-camera>
-
-              <a-asset-item id="house" src="assets/models/house_large_burned/scene.gltf"></a-asset-item>
-                <!-- Environment -->
-                <!-- Documentation:
-                https://github.com/feiss/aframe-environment-component -->
-                <a-entity environment="preset: forest; playArea: 1; ground: hills;"></a-entity>
             
+            <!-- Models -->
+            <a-asset-item id="house" src="assets/models/house_large_burned/scene.gltf"></a-asset-item>
+            <a-asset-item id="bird" src="assets/models/low_poly_bird_animated/scene.gltf"></a-asset-item>
+            
+            <!-- Environment -->
+            <!-- Documentation:
+            https://github.com/feiss/aframe-environment-component -->
+            <a-entity environment="preset: forest; playArea: 1; ground: hills;"></a-entity>
+            
+            <!-- Rendering models -->
+            <a-entity id="house-entity" static-body scale="2 2 2" gltf-model="#house"> </a-entity>
+            <a-entity id="cat-entity" position="1.576 0 -0.38" rotation="0 -38.216284935225914 0" scale="0.07 0.07 0.07" mixin="null" gltf-model="assets/models/low_poly_cat/scene.gltf"></a-entity>
                 
-              <a-entity static-body scale="2 2 2" gltf-model="#house"> </a-entity>
+            <!-- Setting up animation loop-->
+            <a-curve id="birth-path" curve="closed:true">
+                <a-curve-point position="-6.661 2.485 -6.786" curve-point=""></a-curve-point>
+                <a-curve-point position="11.476 1.929 -6.311" curve-point=""></a-curve-point>
+                <a-curve-point position="4.247 2.146 7.34" curve-point=""></a-curve-point><a-curve-point position="-2.741 1.884 7.34" curve-point=""></a-curve-point>
+            </a-curve>
 
-              <!-- Sky -->
-              <a-sky color="#AADDF0"></a-sky>
+            <a-entity alongpath="dur:10000;curve:#birth-path;loop:true" id="bird-entity-animated" gltf-model="assets/models/low_poly_bird_animated/scene.gltf" position="-2.741 1.884 7.34" rotation="3.667 -96.2 30.309" scale="0.15 0.15 0.15" animation-mixer>
+            </a-entity>
+                
 
-              <!-- Lighting -->
-              <a-light type="ambient" color="#ccc"></a-light>
-              <a-light color="#ddf" distance="100" intensity="0.4" type="point"></a-light>
-              <a-light color="#ddf" position="3 10 -10" distance="50" intensity="0.4" type="point"></a-light>            
+            <!-- Sky -->
+            <a-sky color="#AADDF0"></a-sky>
+
+            <!-- Lighting -->
+            <a-light type="ambient" color="#ccc"></a-light>
+            <a-light color="#ddf" distance="100" intensity="0.4" type="point"></a-light>
+            <a-light color="#ddf" position="3 10 -10" distance="50" intensity="0.4" type="point"></a-light>            
         </a-scene>
     </body>
 </html>

@@ -41,8 +41,10 @@
             <!-- Setting up animation loop-->
             <a-curve id="birth-path" curve="closed:true">
                 <a-curve-point position="-6.661 2.485 -6.786" curve-point=""></a-curve-point>
+                <a-curve-point position="-1.561 2.102 -6.786" curve-point=""></a-curve-point>
                 <a-curve-point position="11.476 1.929 -6.311" curve-point=""></a-curve-point>
-                <a-curve-point position="4.247 2.146 7.34" curve-point=""></a-curve-point><a-curve-point position="-2.741 1.884 7.34" curve-point=""></a-curve-point>
+                <a-curve-point position="4.247 2.146 7.34" curve-point=""></a-curve-point>
+                <a-curve-point position="-2.741 1.884 7.34" curve-point=""></a-curve-point>
             </a-curve>
 
             <a-entity alongpath="dur:10000;curve:#birth-path;loop:true" id="bird-entity-animated" gltf-model="assets/models/low_poly_bird_animated/scene.gltf" position="-2.741 1.884 7.34" rotation="3.667 -96.2 30.309" scale="0.15 0.15 0.15" animation-mixer>

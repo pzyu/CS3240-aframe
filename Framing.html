@@ -12,19 +12,30 @@
       <script src="https://rawgit.com/protyze/aframe-alongpath-component/master/dist/aframe-alongpath-component.min.js"></script>
     </head>
     <body>
-            <a-scene physics="debug: true">
-              <!-- Camera -->
-              <a-camera id="camera">
-<!--
-                <a-cursor mousedown-check id="cursor" color="#000" raycaster="objects: .clickable">
+            <a-scene>
+            
+            <a-entity camera="active: true" look-controls wasd-controls position="2 1.6 -20" rotation="2.636 -148.969 0" data-aframe-default-camera>
+                <a-cursor id="cursor" color="#000" raycaster="objects: #clickable">
                     <a-animation attribute="material.color" begin="mouseenter" from="#000" to="#00ff00" dur="100"></a-animation>
                     <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#000" dur="100"></a-animation>
                     <a-animation attribute="scale" begin="click" from="0.1 0.1 0.1" to="1 1 1" dur="150"></a-animation>
+                    
+                    <a-animation attribute="fusing" begin="fusing" from="1 1 1" to="0.1 0.1 0.1" dur="1500"></a-animation>
                 </a-cursor>
--->
-                
-            </a-camera>
             
+            </a-entity>
+                
+            <!--Instructions-->
+           <a-curvedimage id="Instructions" src="assets/images/framing_example.jpg" radius="5" theta-length="36" height="2" position="1.817 2.6 -22.362" opacity="1" rotation="0 -6.245 0" geometry="thetaLength:36">
+                <a-entity text="wrapCount:30;width:2.92;align:center;color:#000;font:mozillavr;value:Take a picture where the cat or the bird is being framed by something" position="1.405 0.592 4.37" rotation="0 -156.074 0"></a-entity> 
+               
+          </a-curvedimage>
+
+            <!--Title-->
+            <a-curvedimage id="title " src="#img_instructions" radius="2" theta-length="24" height="0.5" position="3.317 1.829 -19.822" opacity="0.6" rotation="0 50.191 0" geometry="thetaLength:24">
+                 <a-entity text="align:center;color:#000;font:mozillavr;value:Framing;width:5" position="0.4 0.117 1.873" rotation="0 -171.77274698022083 0"></a-entity>     
+            </a-curvedimage>
+                
             <!-- Models -->
             <a-asset-item id="house" src="assets/models/house_large_burned/scene.gltf"></a-asset-item>
             <a-asset-item id="bird" src="assets/models/low_poly_bird_animated/scene.gltf"></a-asset-item>

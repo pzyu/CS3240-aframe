@@ -60,8 +60,9 @@ window.onload = function (e) {
     transitionPlane = document.querySelector('#transition');
     mainCamera = document.querySelector("#camera");
     // Offset with some delay otherwise value will get overriden before it's complete
-    transitionDuration = parseInt(document.querySelector('#transitionAnimation').getAttribute("dur")) + 100;
-    fade();
+    transitionDuration = 500;
+    
+    setTimeout(fadeOut, 100);
     if (getPageName() == "index.html") {
         hideScene("#scene_portals");
     }
@@ -73,21 +74,34 @@ function getPageName() {
 }
 
 // Fade will toggle between fade out and fade in
-function fade() {
-    transitionPlane.emit('fade');
+function fadeOut() {
+    console.log("fadeout");
+    transitionPlane.emit('fadeOut');
+}
+
+function fadeIn() {
+     if (transitionPlane.getAttribute("material").opacity == 0) { 
+        transitionPlane.emit('fadeIn');
+     }
+}
+
+function fadeInAndOut() {
+    fadeIn();
+    setTimeout(fadeOut, 500);
 }
 
 // Fades out and fades in
 function transition(destinationScene) {
-    fade();
+    fadeIn();
     setTimeout(function () {
         resetCamera();
-        fade();
+        fadeOut();
         hideScene(currentScene);
         showScene(destinationScene);
         currentScene = destinationScene;
     }, transitionDuration);
 }
+
 
 // Hides a scene given sceneId
 function hideScene(sceneId) {

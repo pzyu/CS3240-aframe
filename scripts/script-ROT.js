@@ -3,7 +3,7 @@ AFRAME.registerComponent('cursor-listener', {
     init: function () {
         this.el.addEventListener('click', function (evt) {
             if (isValidGridPoint(evt.detail.cursorEl.id)) {
-                gridReferences.push(evt.detail.cursorEl.id);   
+                gridReferences.push(evt.detail.cursorEl);   
             }
             //transition(evt.detail.target.getAttribute("data-link-to"));
         });
@@ -13,6 +13,7 @@ AFRAME.registerComponent('cursor-listener', {
 var mouseDownTimeout = 1000;
 var currentMouseStatus = false;
 var isMouseDown = false;
+var imgData;
 
 AFRAME.registerComponent('mousedown-check', {
     dependencies: ['raycaster'],
@@ -38,6 +39,11 @@ AFRAME.registerComponent('mousedown-check', {
                 // Only check if photo is valid on cursor up
                 if (gridReferences.length > 0 && isValidPhoto()) {
                     console.log ("Valid photo!");
+                    fadeInAndOut();
+                    var test = document.querySelector('a-scene').components.screenshot.getCanvas('perspective');
+                    
+                    imgData = test.getContext("2d").getImageData(0, 0, test.width, test.height);
+                    myCanvas.putImageData(imgData, 0, 0);
                 } else {
                     console.log("Invalid!");
                 }
@@ -46,20 +52,19 @@ AFRAME.registerComponent('mousedown-check', {
     }
 });
 
-// Raycaster
-AFRAME.registerComponent('collider-check', {
-  dependencies: ['raycaster'],
+var myCanvas; 
+
+AFRAME.registerComponent('draw-canvas-rectangles', {
+  schema: {type: 'selector'},
 
   init: function () {
-//    this.el.addEventListener('raycaster-intersected', function (evt) {
-//      console.log(evt.detail.target);
-//    });
+    var canvas = this.canvas = this.data;
+    myCanvas = this.ctx = canvas.getContext('2d');
   }
 });
 
 // Global so we don't need to keep querying
 var transitionPlane;
-var transitionDuration;
 var currentScene = "#scene_landing";
 var mainCamera;
 
@@ -68,8 +73,8 @@ window.onload = function (e) {
     transitionPlane = document.querySelector('#transition');
     mainCamera = document.querySelector("#camera");
     // Offset with some delay otherwise value will get overriden before it's complete
-    transitionDuration = parseInt(document.querySelector('#transitionAnimation').getAttribute("dur")) + 100;
-    fade();
+    transitionDuration = 500;
+    setTimeout(fadeOut, 100);
 }
 
 var gridPoints = ["#leftTop", "#leftMiddle", "#leftBottom", "#centerTop", "#centerMiddle", "#centerBottom", "#rightTop", "#rightMiddle", "#rightBottom"];
@@ -80,12 +85,9 @@ function isValidPhoto() {
     var currentPos = "";
     for (index in gridReferences) {
         if (currentPos == "") {
-            currentPos = gridReferences[index][0];
-        } else if (currentPos != gridReferences[index][0]) {
+            currentPos = gridReferences[index].id[0];
+        } else if (currentPos != gridReferences[index].id[0]) {
             isValid = false;
-            gridReferences.length = 0;
-            document.querySelector("#centerMiddle").emit("failure");
-
             break;
         }
     }
@@ -93,7 +95,14 @@ function isValidPhoto() {
     if (gridReferences.length == 0) {
         isValid = false;
     }
-    document.querySelector("#centerMiddle").emit("success");
+    
+    for (index in gridReferences) {
+        if (!isValid) {
+            gridReferences[index].emit('failure');
+        } else {
+            gridReferences[index].emit('success');
+        }
+    }
     
     gridReferences.length = 0;
     return isValid;
@@ -109,16 +118,27 @@ function getPageName() {
 }
 
 // Fade will toggle between fade out and fade in
-function fade() {
-    transitionPlane.emit('fade');
+function fadeOut() {
+    transitionPlane.emit('fadeOut');
+}
+
+function fadeIn() {
+     if (transitionPlane.getAttribute("material").opacity == 0) { 
+        transitionPlane.emit('fadeIn');
+     }
+}
+
+function fadeInAndOut() {
+    fadeIn();
+    setTimeout(fadeOut, 400);
 }
 
 // Fades out and fades in
 function transition(destinationScene) {
-    fade();
+    fadeOut();
     setTimeout(function () {
         resetCamera();
-        fade();
+        fadeIn();
         hideScene(currentScene);
         showScene(destinationScene);
         currentScene = destinationScene;

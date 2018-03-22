@@ -33,21 +33,23 @@ AFRAME.registerComponent('mousedown-check', {
 
         this.el.addEventListener('mouseup', function (evt) {
             currentMouseStatus = false;
-            mainCamera.getAttribute('wasd-controls').moveTowards = false;
             
-            setTimeout(function() {
-                // Only check if photo is valid on cursor up
-                if (gridReferences.length > 0 && isValidPhoto()) {
-                    console.log ("Valid photo!");
-                    fadeInAndOut();
-                    var test = document.querySelector('a-scene').components.screenshot.getCanvas('perspective');
-                    
-                    imgData = test.getContext("2d").getImageData(0, 0, test.width, test.height);
-                    myCanvas.putImageData(imgData, 0, 0);
-                } else {
-                    console.log("Invalid!");
-                }
-            }, 100);
+            if (!mainCamera.getAttribute('wasd-controls').moveTowards) {
+                setTimeout(function() {
+                    // Only check if photo is valid on cursor up
+                    if (gridReferences.length > 0 && isValidPhoto()) {
+                        console.log ("Valid photo!");
+                        fadeInAndOut();
+                        var test = document.querySelector('a-scene').components.screenshot.getCanvas('perspective');
+
+                        imgData = test.getContext("2d").getImageData(0, 0, test.width, test.height);
+                        myCanvas.putImageData(imgData, 0, 0);
+                    } else {
+                        console.log("Invalid!");
+                    }
+                }, 100);
+            }
+            mainCamera.getAttribute('wasd-controls').moveTowards = false;
         });
     }
 });

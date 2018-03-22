@@ -19,11 +19,15 @@ AFRAME.registerComponent('collider-check', {
     init: function () {
         this.el.addEventListener('raycaster-intersection', function (event) {
             if (event.detail.target.id == "cat-raycaster") {
-                isCatVisible = event.detail.els[0].getAttribute("id") == "frame" && event.detail.els[1].getAttribute("class") == "player";
+                if (event.detail.els[0] != null && event.detail.els[1] != null) {
+                    isCatVisible = event.detail.els[0].getAttribute("id") == "frame" && event.detail.els[1].getAttribute("class") == "player";
+                }
             }
             
             if (event.detail.target.id == "bird-raycaster") {
-                isBirdVisible = event.detail.els[0].getAttribute("id") == "frame" && event.detail.els[1].getAttribute("class") == "player";
+                if (event.detail.els[0] != null && event.detail.els[1] != null) {
+                    isBirdVisible = event.detail.els[0].getAttribute("id") == "frame" && event.detail.els[1].getAttribute("class") == "player";
+                }
             }
 
         });
@@ -64,8 +68,10 @@ AFRAME.registerComponent('mousedown-check', {
 
                         imgData = test.getContext("2d").getImageData(0, 0, test.width, test.height);
                         myCanvas.putImageData(imgData, 0, 0);
+                        mouse.emit("success");
                     } else {
                         console.log("Invalid!");
+                        mouse.emit("failure");
                     }
                 }, 100);
             }
@@ -102,41 +108,12 @@ window.onload = function (e) {
     // Offset with some delay otherwise value will get overriden before it's complete
     transitionDuration = 500;
     setTimeout(fadeOut, 100);
+    
+    setTimeout(setPosition, 100);
 }
 
-var gridPoints = ["#leftTop", "#leftMiddle", "#leftBottom", "#centerTop", "#centerMiddle", "#centerBottom", "#rightTop", "#rightMiddle", "#rightBottom"];
-var gridReferences = [];
-
-function isValidPhoto() {
-    var isValid = true;
-    var currentPos = "";
-    for (index in gridReferences) {
-        if (currentPos == "") {
-            currentPos = gridReferences[index].id[0];
-        } else if (currentPos != gridReferences[index].id[0]) {
-            isValid = false;
-            break;
-        }
-    }
-
-    if (gridReferences.length == 0) {
-        isValid = false;
-    }
-
-    for (index in gridReferences) {
-        if (!isValid) {
-            gridReferences[index].emit('failure');
-        } else {
-            gridReferences[index].emit('success');
-        }
-    }
-
-    gridReferences.length = 0;
-    return isValid;
-}
-
-function isValidGridPoint(element) {
-    return gridPoints.indexOf("#" + element) > -1;
+function setPosition() {
+    mainCamera.setAttribute('position', '0 1.6 -8');
 }
 
 function getPageName() {

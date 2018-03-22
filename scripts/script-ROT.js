@@ -69,12 +69,18 @@ AFRAME.registerComponent('draw-canvas-rectangles', {
 var transitionPlane;
 var currentScene = "#scene_landing";
 var mainCamera;
+var canvasPlane;
+var canvasBackground;
 
 // Init on load
 window.onload = function (e) {
     transitionPlane = document.querySelector('#transition');
     mainCamera = document.querySelector("#camera");
-    console.log(mainCamera);
+    
+    
+    canvasPlane = document.querySelector("#uiCanvas");
+    canvasBackground = document.querySelector("#uiCanvasBackground");
+    
     // Offset with some delay otherwise value will get overriden before it's complete
     transitionDuration = 500;
     setTimeout(fadeOut, 100);
@@ -123,12 +129,23 @@ function getPageName() {
 // Fade will toggle between fade out and fade in
 function fadeOut() {
     transitionPlane.emit('fadeOut');
+    setTimeout(setBackwards, 100);
 }
 
 function fadeIn() {
-     if (transitionPlane.getAttribute("material").opacity == 0) { 
+    if (transitionPlane.getAttribute("material").opacity == 0) {
+        canvasPlane.setAttribute("visible", false);
+        canvasBackground.setAttribute("visible", false);
+        
+        transitionPlane.setAttribute("rotation", "0 0 0");
         transitionPlane.emit('fadeIn');
-     }
+    }
+}
+
+function setBackwards() {
+    transitionPlane.setAttribute("rotation", "0 180 0");
+    canvasPlane.setAttribute("visible", true);
+    canvasBackground.setAttribute("visible", true);
 }
 
 function fadeInAndOut() {

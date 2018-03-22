@@ -43,12 +43,15 @@
                 <a-animation attribute="material.color" begin="failure" from="#ffffff" to="#ff0000" dur="1000" fill="backwards"></a-animation>
             </a-entity>
 
-            <a-entity id="uiCanvas" material="shader: flat; src: #helloWorldCanvas" geometry="primitive: plane; width: 4096; height: 2548" scale="0.0001 0.0001 0.0001 " position="-0.7 -0.7 -1" rotation="0 0 0" draw-canvas-rectangles="#helloWorldCanvas">
+            <a-entity id="uiCanvasBackground" material="shader: flat; color:#00000" geometry="primitive: plane; width: 4096; height: 2548" scale="0.00011 0.00011 0.00011" position="-0.65 -0.65 -1">
             </a-entity>
             
-            <a-plane id="transition" position="0 0 -0.1" rotation="0 180 0" material="shader: flat" color="white" material="transparent: true; opacity: 0; side:double">
-                <a-animation attribute="material.opacity" begin="fadeOut" from="1" to="0" delay="0" dur="200"></a-animation>
-                <a-animation attribute="material.opacity" begin="fadeIn" from="0" to="1" delay="0" dur="200"></a-animation>
+            <a-entity id="uiCanvas" material="shader: flat; src: #helloWorldCanvas" geometry="primitive: plane; width: 4096; height: 2548" scale="0.0001 0.0001 0.0001 " position="-0.65 -0.65 -1" rotation="0 0 0" draw-canvas-rectangles="#helloWorldCanvas">
+            </a-entity>
+            
+            <a-plane id="transition" position="0 0 -0.1" rotation="0 0 0" material="shader: flat" color="white" material="transparent: true; opacity: 0;">
+                <a-animation attribute="material.opacity" begin="fadeOut" from="1" to="0" delay="0" dur="100"></a-animation>
+                <a-animation attribute="material.opacity" begin="fadeIn" from="0" to="1" delay="0" dur="100"></a-animation>
             </a-plane>
         </a-entity>
         

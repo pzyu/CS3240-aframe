@@ -1,195 +1,170 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-            <title>Framing</title>
-        <meta name="description" content="Hello, World! - A-Frame">
-        <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
-        <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
-        <script src="scripts/script.js"></script>
-    </head>
-    <body>
-        <a-scene>
-            <a-assets>
-                <!--Model-->
-                <a-asset-item id="model_2b" src="assets/models/model_2b/scene.gltf"></a-asset-item>
-                
-                <!--Logo-->
-                <img id="img_logo" src="assets/images/title.png">
-                <img id="img_pick" src="assets/images/pick.png">
-                <img id="img_instructions" src="assets/images/instructions.png">
-                <img id="img_shadow" src="assets/images/radial-shadow-2.png">
-                
-                <img id="city" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/city.jpg">
-                <img id="cubes" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/cubes.jpg">
-                <img id="sechelt" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/sechelt.jpg">
-                
-                <img id="thumb_landing" src="assets/images/background.png">
-                
-            </a-assets>
+
+<head>
+    <meta charset="utf-8">
+    <title>Framing</title>
+    <meta name="description" content="Hello, World! - A-Frame">
+    <script src="scripts/aframe-v0.7.0.js"></script>
+    <script src="scripts/aframe-extras.js"></script>
+    <script src="scripts/aframe-look-at-component.min.js"></script>
+    <script src="scripts/script-framing.js"></script>
+
+    <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+    <script src="https://rawgit.com/protyze/aframe-curve-component/master/dist/aframe-curve-component.min.js"></script>
+    <script src="https://rawgit.com/protyze/aframe-alongpath-component/master/dist/aframe-alongpath-component.min.js"></script>
+</head>
+
+<body>
+    <a-scene>
+        <a-assets>
+            <img id="img_shadow" src="assets/images/radial-shadow-2.png">
+            <img id="thumb_landing" src="assets/images/background.png">
             
-            <a-entity id="scene_landing">
-                <!--Background and lights-->
-                <a-light type="directional" color="#fff" intensity="0.2" position="-1 2 1"></a-light>
-                <a-light type="ambient" color="#fff"></a-light>
-                <a-sky color="#ECECEC"></a-sky>
-<!--                <a-sky id="image-360" radius="10" src="#city"></a-sky>-->
+            <canvas width="4096" height="2048" id="helloWorldCanvas" crossOrigin="anonymous"></canvas>
+        </a-assets>
 
-                <!--Cylinder-->
-                <a-entity>
-                    <a-cylinder position="0 0.5 0" radius="4" height="1.6" side="back" open-ended="true" color="#FFF"></a-cylinder>
-                </a-entity>
+        <a-grid position="0 -0.1 0" static-body></a-grid>
+        
+        <!-- Environment -->
+        <a-entity environment="preset: forest; playArea: 1; ground: hills;"></a-entity>
+        
+        <!-- Sky -->
+        <a-sky color="#AADDF0"></a-sky>
+        
+        <a-entity id="camera" camera="userHeight: 1.6" universal-controls kinematic-body="shape:cylinder; radius:0.5" position="0 1.6 -8" rotation="0 180 0">
+            <a-entity class="player" geometry="primitive: sphere; radius:0.5" material="transparent: true; opacity:0;" position="0 0.1 0"></a-entity>
+            
+            <!--Center grids-->
+            <a-entity cursor id="centerMiddle" mousedown-check position="0 0 -0.1" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .clickable, .gameObject">
+                <a-animation attribute="material.color" begin="mouseenter" from="#fff" to="#00ff00" dur="100"></a-animation>
+                <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#fff" dur="100"></a-animation>
+                <a-animation attribute="material.color" begin="success" from="#ffffff" to="#00ff00" dur="1000" fill="backwards"></a-animation>
+                <a-animation attribute="material.color" begin="failure" from="#ffffff" to="#ff0000" dur="1000" fill="backwards"></a-animation>
+            </a-entity>
 
-                <!--Logo-->
-                <a-curvedimage src="#img_logo" radius="5" theta-length="36" height="2" position="0 2.6 0" opacity="0.8">
-                    <a-animation attribute="rotation" from="0 10 0" to="0 200 0" delay="500" dur="1000"></a-animation>
-                </a-curvedimage>
-
-                <!--Pick-->
-                <a-curvedimage src="#img_pick" radius="5" theta-length="42" height="0.5" position="0 3 0" opacity="0.8">
-                    <a-animation attribute="rotation" from="0 10 0" to="0 125 0" delay="1000" dur="1000"></a-animation>
-                </a-curvedimage>
-
-                <!--Instructions-->
-                <a-curvedimage src="#img_instructions" radius="2" theta-length="24" height="0.5" position="0 1 0" opacity="0.6">
-                    <a-animation attribute="rotation" from="0 360 0" to="0 212 0" delay="1000" dur="1000"></a-animation>
-                </a-curvedimage>
-
-                <!--Model-->
-                <a-cylinder cursor-listener id="clickable" scale="0.01 0.01 0.01" position="1 0.3 -2.6" opacity="0.0" height="100" radius="50">
-                    <a-entity gltf-model="#model_2b" data-link-to="#scene_portals">
-                        <a-animation attribute="rotation" from ="0 -30 0" to="0 330 0" dur="15000" easing="linear" repeat="indefinite"></a-animation>
-
-                        <a-image src="#img_shadow" position="0 -20 0" rotation="-90 0 0" scale="50 50 50"></a-image>
-
-                        <a-animation attribute="scale" begin="mouseenter" dur="300" to="1.1 1.1 1.1"></a-animation>
-                        <a-animation attribute="scale" begin="mouseleave" dur="300" to="1 1 1"></a-animation>
-                    </a-entity>
-                </a-cylinder>
-
-                <a-cylinder cursor-listener id="clickable" scale="0.01 0.01 0.01" position="2 0.3 -1.9" opacity="0.0" height="100" radius="50">
-                    <a-entity gltf-model="#model_2b" data-link-to="#scene_portals">
-                        <a-animation attribute="rotation" from ="0 360 0" to="0 0 0" dur="15000" easing="linear" repeat="indefinite"></a-animation>
-
-                        <a-image src="#img_shadow" position="0 -20 0" rotation="-90 0 0" scale="50 50 50"></a-image>
-                        
-                        <a-animation attribute="scale" begin="mouseenter" dur="300" to="1.1 1.1 1.1"></a-animation>
-                        <a-animation attribute="scale" begin="mouseleave" dur="300" to="1 1 1"></a-animation>
-                    </a-entity>
-                </a-cylinder>
+            <a-entity id="uiCanvas" material="shader: flat; src: #helloWorldCanvas" geometry="primitive: plane; width: 4096; height: 2548" scale="0.0001 0.0001 0.0001 " position="-0.7 -0.7 -1" rotation="0 0 0" draw-canvas-rectangles="#helloWorldCanvas">
             </a-entity>
             
-            <a-entity id="scene_portals">
-                <!--Background and lights-->
-                <a-light type="directional" color="#fff" intensity="0.2" position="-1 2 1"></a-light>
-                <a-light type="ambient" color="#fff"></a-light>
-                <a-sky color="#ECECEC"></a-sky>
+            <a-plane id="transition" position="0 0 -0.1" rotation="0 180 0" material="shader: flat" color="white" material="transparent: true; opacity: 0; side:double">
+                <a-animation attribute="material.opacity" begin="fadeOut" from="1" to="0" delay="0" dur="200"></a-animation>
+                <a-animation attribute="material.opacity" begin="fadeIn" from="0" to="1" delay="0" dur="200"></a-animation>
+            </a-plane>
+        </a-entity>
+        
+        
+        <!--Default portals-->
+        <a-entity id="portal" position="0 1 -13" link="href:ROT.html; title:↓;" geometry="primitive:circle;segments:64" material="visible:false;shader:portal;side:double">
+            <a-entity text="value: ROT; color:#000; width:5; align:center; font:mozillavr; side:double;" position="0 1 0" rotation="0 0 0"></a-entity>
 
-                <!--Cylinder-->
-                <a-entity>
-                    <a-cylinder position="0 0.5 0" radius="4" height="1.6" side="back" open-ended="true" color="#FFF"></a-cylinder>
-                </a-entity>
+            <a-image src="#img_shadow" position="0 -1 0" rotation="-90 0 0" scale="1 1 1"></a-image>
 
-                <a-entity id="portal" position="0 1 -3">
-                    <a-entity text="value: Framing; color:#000; width:5; align:center; font:mozillavr;" position="0 1 0"></a-entity>
-                        
-                    <a-image src="#img_shadow" position="0 -1 0" rotation="-90 0 0" scale="1 1 1"></a-image>
+            <a-sphere class="clickable" cursor-listener data-link-to="#scene_landing" radius="0.6" material="src: #thumb_landing; repeat: 1 1; roughness: 2;" color="#ffffff" opacity="1" roughness="0.8">
 
-                    <a-sphere id="clickable" cursor-listener data-link-to="#scene_landing" radius="0.6" material="src: #thumb_landing; repeat: 1 1; roughness: 2;"  color="#ffffff" opacity="1" roughness="0.8">
+                <a-animation attribute="scale" begin="mouseenter" dur="300" to="1.1 1.1 1.1"></a-animation>
+                <a-animation attribute="scale" begin="mouseleave" dur="300" to="1 1 1"></a-animation>
 
-                        <a-animation attribute="scale" begin="mouseenter" dur="300" to="1.1 1.1 1.1"></a-animation>
-                        <a-animation attribute="scale" begin="mouseleave" dur="300" to="1 1 1"></a-animation>
+                <a-animation attribute="position" from="0 0 0" to="0 -0.1 0" easing="linear" direction="alternate" repeat="indefinite"></a-animation>
 
-                        <a-animation attribute="position" from="0 0 0" to="0 -0.1 0" easing="linear" direction="alternate" repeat="indefinite"></a-animation>
-                        
-                        <a-animation attribute="rotation" from="0 0 0" to="0 360 0" dur="15000" easing="linear" repeat="indefinite"></a-animation>
+                <a-animation attribute="rotation" from="0 0 0" to="0 360 0" dur="15000" easing="linear" repeat="indefinite"></a-animation>
 
-                    </a-sphere>
-                </a-entity>
+            </a-sphere>
+        </a-entity>
 
-                <a-entity id="portal" position="0 1.8 -3">
-                    <a-entity text="value: Turn around to go back to main; color:#000; width:5; align:center; font:mozillavr;" position="0 1 0"></a-entity>
-                        
-                    <a-image src="#img_shadow" position="0 -1 0" rotation="-90 0 0" scale="1 1 1"></a-image>
+        <a-entity id="portal" position="2 1 -13" rotation="0 -45 0" link="href:Angles.html; title:↓;" geometry="primitive:circle;segments:64" material="visible:false;shader:portal;side:double">
+            <a-entity text="value: Angle; color:#000; width:5; align:center; font:mozillavr; side:double;" position="0 1 0" rotation="0 45 0"></a-entity>
 
-                </a-entity>
+            <a-image src="#img_shadow" position="0 -1 0" rotation="-90 0 0" scale="1 1 1"></a-image>
 
+            <a-sphere class="clickable" cursor-listener data-link-to="#scene_landing" radius="0.6" material="src: #thumb_landing; repeat: 1 1; roughness: 2;" color="#ffffff" opacity="1" roughness="0.8">
 
-                <a-entity id="portal" position="0 1 2.5" rotation="0 -180 0">
-                    <a-entity text="value: Back to main; color:#000; width:5; align:center; font:mozillavr;" position="0 1 0"></a-entity>
-                        
-                    <a-image src="#img_shadow" position="0 -1 0" rotation="-90 0 0" scale="1 1 1"></a-image>
+                <a-animation attribute="scale" begin="mouseenter" dur="300" to="1.1 1.1 1.1"></a-animation>
+                <a-animation attribute="scale" begin="mouseleave" dur="300" to="1 1 1"></a-animation>
 
-                    <a-sphere id="clickable" cursor-listener data-link-to="#scene_landing" radius="0.6" material="src: #thumb_landing; repeat: 1 1; roughness: 2;"  color="#ffffff" opacity="1" roughness="0.8">
+                <a-animation attribute="position" from="0 0 0" to="0 -0.1 0" easing="linear" direction="alternate" repeat="indefinite"></a-animation>
 
-                        <a-animation attribute="scale" begin="mouseenter" dur="300" to="1.1 1.1 1.1"></a-animation>
-                        <a-animation attribute="scale" begin="mouseleave" dur="300" to="1 1 1"></a-animation>
+                <a-animation attribute="rotation" from="0 0 0" to="0 360 0" dur="15000" easing="linear" repeat="indefinite"></a-animation>
 
-                        <a-animation attribute="position" from="0 0 0" to="0 -0.1 0" easing="linear" direction="alternate" repeat="indefinite"></a-animation>
-                        
-                        <a-animation attribute="rotation" from="0 0 0" to="0 360 0" dur="15000" easing="linear" repeat="indefinite"></a-animation>
+            </a-sphere>
+        </a-entity>
 
-                    </a-sphere>
-                </a-entity>
-                
-                <a-entity id="portal" position="2 1 -2.5" rotation="0 -45 0">
-                    <a-entity text="value: Angle; color:#000; width:5; align:center; font:mozillavr;" position="0 1 0"></a-entity>
-                        
-                    <a-image src="#img_shadow" position="0 -1 0" rotation="-90 0 0" scale="1 1 1"></a-image>
+        <a-entity id="portal" position="-2 1 -12.5" rotation="0 45 0" link="href:index.html; title:↓;" geometry="primitive:circle;segments:64" material="visible:false;shader:portal;side:double">
+            <a-entity text="value: Back to main; color:#000; width:5; align:center; font:mozillavr; side:double;" position="0 1 0" rotation="0 0 0"></a-entity>
 
-                    <a-sphere id="clickable" cursor-listener data-link-to="#scene_landing" radius="0.6" material="src: #thumb_landing; repeat: 1 1; roughness: 2;"  color="#ffffff" opacity="1" roughness="0.8">
+            <a-image src="#img_shadow" position="0 -1 0" rotation="-90 0 0" scale="1 1 1"></a-image>
 
-                        <a-animation attribute="scale" begin="mouseenter" dur="300" to="1.1 1.1 1.1"></a-animation>
-                        <a-animation attribute="scale" begin="mouseleave" dur="300" to="1 1 1"></a-animation>
+            <a-sphere class="clickable" cursor-listener data-link-to="#scene_landing" radius="0.6" material="src: #thumb_landing; repeat: 1 1; roughness: 2;" color="#ffffff" opacity="1" roughness="0.8">
 
-                        <a-animation attribute="position" from="0 0 0" to="0 -0.1 0" easing="linear" direction="alternate" repeat="indefinite"></a-animation>
-                        
-                        <a-animation attribute="rotation" from="0 0 0" to="0 360 0" dur="15000" easing="linear" repeat="indefinite"></a-animation>
+                <a-animation attribute="scale" begin="mouseenter" dur="300" to="1.1 1.1 1.1"></a-animation>
+                <a-animation attribute="scale" begin="mouseleave" dur="300" to="1 1 1"></a-animation>
 
-                    </a-sphere>
-                </a-entity>
-                
-             <a-entity id="portal" position="-2 1 -2.5"  rotation="0 45 0">
-                    <a-entity text="value: Rules of Third; color:#000; width:5; align:center; font:mozillavr;" position="0 1 0"></a-entity>
-                        
-                    <a-image src="#img_shadow" position="0 -1 0" rotation="-90 0 0" scale="1 1 1"></a-image>
+                <a-animation attribute="position" from="0 0 0" to="0 -0.1 0" easing="linear" direction="alternate" repeat="indefinite"></a-animation>
 
-                    <a-sphere id="clickable" cursor-listener data-link-to="#scene_landing" radius="0.6" material="src: #thumb_landing; repeat: 1 1; roughness: 2;"  color="#ffffff" opacity="1" roughness="0.8">
+                <a-animation attribute="rotation" from="0 0 0" to="0 360 0" dur="15000" easing="linear" repeat="indefinite"></a-animation>
 
-                        <a-animation attribute="scale" begin="mouseenter" dur="300" to="1.1 1.1 1.1"></a-animation>
-                        <a-animation attribute="scale" begin="mouseleave" dur="300" to="1 1 1"></a-animation>
+            </a-sphere>
+        </a-entity>
 
-                        <a-animation attribute="position" from="0 0 0" to="0 -0.1 0" easing="linear" direction="alternate" repeat="indefinite"></a-animation>
-                        
-                        <a-animation attribute="rotation" from="0 0 0" to="0 360 0" dur="15000" easing="linear" repeat="indefinite"></a-animation>
+        <!--Instructions-->`
+        <a-image id="Instructions" src="assets/images/framing_example.jpg" position="1.25 2 -2.75" opacity="1" geometry="primitive: plane; height:2; width:3;">
+            <a-entity text="wrapCount:30;width:2.92;align:center;color:#000;font:mozillavr;value:Take a picture where the cat or the bird is being framed by something" position="0 0.6 -0.1" rotation="0 180 0"></a-entity>
+        </a-image>
 
-                    </a-sphere>
-                </a-entity>
+        <!--Title-->
+        <!--
+        <a-curvedimage id="title " src="#img_instructions" radius="2" theta-length="24" height="0.5" position="0 2 -2.8" opacity="0.6" rotation="0 50.191 0" geometry="thetaLength:24">
+            <a-entity text="align:center;color:#000;font:mozillavr;value:Framing;width:5" position="0.4 0.117 1.873" rotation="0 -171.77274698022083 0"></a-entity>
+        </a-curvedimage>
+        -->
 
-<!--
-                <a-link id="clickable" cursor-listener data-link-to="#scene_landing" title="Rules of thirds" position="-2.5 1 -2" rotation="0 45 0"image="#thumbCity" peekMode="true" on="fade"></a-link>
-                
-                <a-link id="clickable" cursor-listener data-link-to="#scene_landing" title="Framing" position="0 1 -3" rotation="0 0 0"image="#thumbCity" peekMode="true"></a-link>
-                
-                <a-link id="clickable" cursor-listener data-link-to="#scene_landing" color="red" title="Angles" position="2.5 1 -2" rotation="0 -45 0" image="#thumbCity" peekMode="true"></a-link>
--->
-            </a-entity>
-            
-            <a-camera id="camera">
-                <a-cursor id="cursor" color="#000" raycaster="objects: #clickable">
-                    <a-animation attribute="material.color" begin="mouseenter" from="#000" to="#00ff00" dur="100"></a-animation>
-                    <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#000" dur="100"></a-animation>
-                    <a-animation attribute="scale" begin="click" from="0.1 0.1 0.1" to="1 1 1" dur="150"></a-animation>
-                    
-                    <a-animation attribute="fusing" begin="fusing" from="1 1 1" to="0.1 0.1 0.1" dur="1500"></a-animation>
-                </a-cursor>
-                
-                <a-plane id="transition" position="0 0 -0.1" color="black" material="opacity: 1">
-                    <a-animation id="transitionAnimation" attribute="material.opacity" begin="fade" from="1" to="0" delay="0" dur="1000" direction="alternate"></a-animation>
-                </a-plane>
-                
-            </a-camera>
-            
-        </a-scene>
-    </body>
+        <!-- Models -->
+        <a-asset-item id="house" src="assets/models/house_large_burned/scene.gltf"></a-asset-item>
+        <a-asset-item id="bird" src="assets/models/low_poly_bird_animated/scene.gltf"></a-asset-item>
+        
+        <!--Collision boxes-->
+        <a-entity class="collidable" geometry="primitive:box" visible="false" position="1.45 1.45 -2.5" scale="4.2 5.0 0.5" static-body></a-entity>
+        
+        <a-entity class="collidable" geometry="primitive:box" visible="false" position="-3 1.45 -2.5" scale="1.5 5.0 0.5" static-body></a-entity>
+        
+        <a-entity class="collidable" geometry="primitive:box" visible="false" position="3.2 1.45 1.5" scale="0.75 5.0 0.5" static-body></a-entity>
+        
+        <a-entity class="collidable" geometry="primitive:box" visible="false" position="0.4 1.45 1.5" scale="1.3 5.0 0.5" static-body></a-entity>
+        
+        <a-entity class="collidable" geometry="primitive:box" visible="false" position="-2.5 1.45 1.5" scale="1.90 5.0 0.5" static-body></a-entity>
+        
+        <a-entity class="collidable" geometry="primitive:box" visible="false" position="-0.881 0.551 1.5" scale="1.3 2.0 0.5" static-body></a-entity>
+        
+        <a-entity class="collidable" geometry="primitive:box" visible="false" position="3.5 1.45 -0.5" scale="0.5 5.0 4.0" static-body></a-entity>
+        
+        <a-entity class="collidable" geometry="primitive:box" visible="false" position="-3.5 1.45 -0.5" scale="0.5 5.0 4.0" static-body></a-entity>
+        
+        <a-entity class="collidable" geometry="primitive:box" visible="false" position="-1.69 0.041 0.365" scale="3.682 0.428 2.319" static-body></a-entity>
+        
+        <a-entity id="frame" class="collidable" geometry="primitive:box" visible="false" position="1.8 1.4 1.5" scale="1.3 4 0.5"></a-entity>
+        
+        <a-entity id="frame" class="collidable" geometry="primitive:box" visible="false" position="-0.881 2.138 1.5" scale="1.1 1.1 0.5"></a-entity>
+        
+        <a-entity id="frame" class="collidable" geometry="primitive:box" visible="false" position="-1.572 1.2 -2.5" scale="1.3 4 0.5"></a-entity>
+
+        <!-- Rendering models -->
+        <a-entity id="house-entity" scale="2 2 2" gltf-model="#house"> </a-entity>
+        <a-entity id="cat-entity" look-at=".player" position="1.576 0 -0.38" rotation="0 -38.216284935225914 0" scale="0.07 0.07 0.07" mixin="null" gltf-model="assets/models/low_poly_cat/scene.gltf">
+             <a-entity collider-check id="cat-raycaster" raycaster="objects: .collidable, .player; showLine:false;" position="0 0 0" rotation="180 0 0"></a-entity>
+        </a-entity>
+
+        <!-- Setting up animation loop-->
+        <a-curve id="birth-path" curve="closed:true">
+            <a-curve-point position="-6.661 2.485 -6.786" curve-point=""></a-curve-point>
+            <a-curve-point position="-1.561 2.102 -6.786" curve-point=""></a-curve-point>
+            <a-curve-point position="11.476 1.929 -6.311" curve-point=""></a-curve-point>
+            <a-curve-point position="4.247 2.146 7.34" curve-point=""></a-curve-point>
+            <a-curve-point position="-2.741 1.884 7.34" curve-point=""></a-curve-point>
+        </a-curve>
+
+        <a-entity look-at=".player" alongpath="dur:10000;curve:#birth-path;loop:true" id="bird-entity-animated" gltf-model="assets/models/low_poly_bird_animated/scene.gltf" position="-2.741 1.884 7.34" rotation="3.667 -96.2 30.309" scale="0.15 0.15 0.15" animation-mixer>
+             <a-entity collider-check id="bird-raycaster" raycaster="objects: .collidable, .player; showLine:false;" position="0 0 0" rotation="180 0 0"></a-entity>
+        </a-entity>
+    </a-scene>
+</body>
+
 </html>

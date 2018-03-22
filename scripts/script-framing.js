@@ -3,9 +3,33 @@ AFRAME.registerComponent('cursor-listener', {
     init: function () {
         this.el.addEventListener('click', function (evt) {
             if (isValidGridPoint(evt.detail.cursorEl.id)) {
-                gridReferences.push(evt.detail.cursorEl);   
+                gridReferences.push(evt.detail.cursorEl);
             }
             //transition(evt.detail.target.getAttribute("data-link-to"));
+        });
+    }
+});
+
+var isCatVisible = false;
+var isBirdVisible = false;
+
+AFRAME.registerComponent('collider-check', {
+    dependencies: ['raycaster'],
+
+    init: function () {
+        this.el.addEventListener('raycaster-intersection', function (event) {
+            if (event.detail.target.id == "cat-raycaster") {
+                if (event.detail.els[0] != null && event.detail.els[1] != null) {
+                    isCatVisible = event.detail.els[0].getAttribute("id") == "frame" && event.detail.els[1].getAttribute("class") == "player";
+                }
+            }
+            
+            if (event.detail.target.id == "bird-raycaster") {
+                if (event.detail.els[0] != null && event.detail.els[1] != null) {
+                    isBirdVisible = event.detail.els[0].getAttribute("id") == "frame" && event.detail.els[1].getAttribute("class") == "player";
+                }
+            }
+
         });
     }
 });
@@ -24,7 +48,7 @@ AFRAME.registerComponent('mousedown-check', {
                 currentMouseStatus = true;
                 setTimeout(function () {
                     if (currentMouseStatus) {
-                        mainCamera.getAttribute('wasd-controls').moveTowards = true;
+                        mainCamera.getAttribute('keyboard-controls').moveTowards = true;
                     }
                     currentMouseStatus = false;
                 }, mouseDownTimeout);
@@ -33,86 +57,63 @@ AFRAME.registerComponent('mousedown-check', {
 
         this.el.addEventListener('mouseup', function (evt) {
             currentMouseStatus = false;
-            
-            if (!mainCamera.getAttribute('wasd-controls').moveTowards) {
-                setTimeout(function() {
+
+            if (!mainCamera.getAttribute('keyboard-controls').moveTowards) {
+                setTimeout(function () {
                     // Only check if photo is valid on cursor up
-                    if (gridReferences.length > 0 && isValidPhoto()) {
-                        console.log ("Valid photo!");
+                    if (isCatVisible || isBirdVisible) {
+                        console.log("Valid photo!");
                         fadeInAndOut();
                         var test = document.querySelector('a-scene').components.screenshot.getCanvas('perspective');
 
                         imgData = test.getContext("2d").getImageData(0, 0, test.width, test.height);
                         myCanvas.putImageData(imgData, 0, 0);
+                        mouse.emit("success");
                     } else {
                         console.log("Invalid!");
+                        mouse.emit("failure");
                     }
                 }, 100);
             }
-            mainCamera.getAttribute('wasd-controls').moveTowards = false;
+            mainCamera.getAttribute('keyboard-controls').moveTowards = false;
         });
     }
 });
 
-var myCanvas; 
+var myCanvas;
 
 AFRAME.registerComponent('draw-canvas-rectangles', {
-  schema: {type: 'selector'},
+    schema: {
+        type: 'selector'
+    },
 
-  init: function () {
-    var canvas = this.canvas = this.data;
-    myCanvas = this.ctx = canvas.getContext('2d');
-  }
+    init: function () {
+        var canvas = this.canvas = this.data;
+        myCanvas = this.ctx = canvas.getContext('2d');
+    }
 });
 
 // Global so we don't need to keep querying
 var transitionPlane;
 var currentScene = "#scene_landing";
 var mainCamera;
+var mouse; 
 
 // Init on load
 window.onload = function (e) {
     transitionPlane = document.querySelector('#transition');
     mainCamera = document.querySelector("#camera");
-    console.log(mainCamera);
+    mouse = document.querySelector("#centerMiddle");
+
     // Offset with some delay otherwise value will get overriden before it's complete
     transitionDuration = 500;
     setTimeout(fadeOut, 100);
+    
+    setTimeout(setPosition, 100);
 }
 
-var gridPoints = ["#leftTop", "#leftMiddle", "#leftBottom", "#centerTop", "#centerMiddle", "#centerBottom", "#rightTop", "#rightMiddle", "#rightBottom"];
-var gridReferences = [];
-
-function isValidPhoto() {
-    var isValid = true;
-    var currentPos = "";
-    for (index in gridReferences) {
-        if (currentPos == "") {
-            currentPos = gridReferences[index].id[0];
-        } else if (currentPos != gridReferences[index].id[0]) {
-            isValid = false;
-            break;
-        }
-    }
-    
-    if (gridReferences.length == 0) {
-        isValid = false;
-    }
-    
-    for (index in gridReferences) {
-        if (!isValid) {
-            gridReferences[index].emit('failure');
-        } else {
-            gridReferences[index].emit('success');
-        }
-    }
-    
-    gridReferences.length = 0;
-    return isValid;
-}
-
-function isValidGridPoint(element) {
-    return gridPoints.indexOf("#" + element) > -1;
+function setPosition() {
+    mainCamera.setAttribute('position', '0 1.6 -8');
 }
 
 function getPageName() {
@@ -126,9 +127,9 @@ function fadeOut() {
 }
 
 function fadeIn() {
-     if (transitionPlane.getAttribute("material").opacity == 0) { 
+    if (transitionPlane.getAttribute("material").opacity == 0) {
         transitionPlane.emit('fadeIn');
-     }
+    }
 }
 
 function fadeInAndOut() {

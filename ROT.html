@@ -21,7 +21,7 @@
             <img id="img_shadow" src="assets/images/radial-shadow-2.png">
 
             <img id="thumb_landing" src="assets/images/background.png">
-            
+
             <canvas width="4096" height="2048" id="helloWorldCanvas" crossOrigin="anonymous"></canvas>
 
         </a-assets>
@@ -41,7 +41,8 @@
 
                 <a-image src="#img_shadow" position="0 -1 0" rotation="-90 0 0" scale="1 1 1"></a-image>
 
-                <a-sphere class="clickable" cursor-listener data-link-to="#scene_landing" radius="0.6" material="src: #thumb_landing; repeat: 1 1; roughness: 2;" color="#ffffff" opacity="1" roughness="0.8">
+                <a-sphere class="clickable" cursor-listener data-link-to="#scene_landing" radius="0.6" material="src: #thumb_landing; repeat: 1 1; roughness: 2;"
+                    color="#ffffff" opacity="1" roughness="0.8">
 
                     <a-animation attribute="scale" begin="mouseenter" dur="300" to="1.1 1.1 1.1"></a-animation>
                     <a-animation attribute="scale" begin="mouseleave" dur="300" to="1 1 1"></a-animation>
@@ -53,12 +54,14 @@
                 </a-sphere>
             </a-entity>
 
-            <a-entity id="portal" position="2 1 2.5" rotation="0 -45 0" link="href:Angles.html; title:↓;" geometry="primitive:circle;segments:64" material="visible:false;shader:portal;side:double">
+            <a-entity id="portal" position="2 1 2.5" rotation="0 -45 0" link="href:Angles.html; title:↓;" geometry="primitive:circle;segments:64"
+                material="visible:false;shader:portal;side:double">
                 <a-entity text="value: Angle; color:#000; width:5; align:center; font:mozillavr;" position="0 1 0" rotation="0 270 0"></a-entity>
 
                 <a-image src="#img_shadow" position="0 -1 0" rotation="-90 0 0" scale="1 1 1"></a-image>
 
-                <a-sphere class="clickable" cursor-listener data-link-to="#scene_landing" radius="0.6" material="src: #thumb_landing; repeat: 1 1; roughness: 2;" color="#ffffff" opacity="1" roughness="0.8">
+                <a-sphere class="clickable" cursor-listener data-link-to="#scene_landing" radius="0.6" material="src: #thumb_landing; repeat: 1 1; roughness: 2;"
+                    color="#ffffff" opacity="1" roughness="0.8">
 
                     <a-animation attribute="scale" begin="mouseenter" dur="300" to="1.1 1.1 1.1"></a-animation>
                     <a-animation attribute="scale" begin="mouseleave" dur="300" to="1 1 1"></a-animation>
@@ -70,12 +73,14 @@
                 </a-sphere>
             </a-entity>
 
-            <a-entity id="portal" position="-2 1 2.5" rotation="0 45 0" link="href:index.html; title:↓;" geometry="primitive:circle;segments:64" material="visible:false;shader:portal;side:double">
+            <a-entity id="portal" position="-2 1 2.5" rotation="0 45 0" link="href:index.html; title:↓;" geometry="primitive:circle;segments:64"
+                material="visible:false;shader:portal;side:double">
                 <a-entity text="value: Back to main; color:#000; width:5; align:center; font:mozillavr;" position="0 1 0" rotation="0 90 0"></a-entity>
 
                 <a-image src="#img_shadow" position="0 -1 0" rotation="-90 0 0" scale="1 1 1"></a-image>
 
-                <a-sphere class="clickable" cursor-listener data-link-to="#scene_landing" radius="0.6" material="src: #thumb_landing; repeat: 1 1; roughness: 2;" color="#ffffff" opacity="1" roughness="0.8">
+                <a-sphere class="clickable" cursor-listener data-link-to="#scene_landing" radius="0.6" material="src: #thumb_landing; repeat: 1 1; roughness: 2;"
+                    color="#ffffff" opacity="1" roughness="0.8">
 
                     <a-animation attribute="scale" begin="mouseenter" dur="300" to="1.1 1.1 1.1"></a-animation>
                     <a-animation attribute="scale" begin="mouseleave" dur="300" to="1 1 1"></a-animation>
@@ -105,7 +110,8 @@
 
         <a-camera collider-check id="camera">
             <!-- Center grids-->
-            <a-entity cursor id="centerMiddle" mousedown-check position="0 0 -0.1" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .clickable, .gameObject">
+            <a-entity cursor id="centerMiddle" mousedown-check position="0 0 -0.1" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7"
+                raycaster="objects: .clickable, .gameObject">
                 <a-animation attribute="material.color" begin="mouseenter" from="#fff" to="#00ff00" dur="100"></a-animation>
                 <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#fff" dur="100"></a-animation>
                 <a-animation attribute="scale" begin="success" from="1 1 1" to="1.5 1.5 1.5" dur="1000" fill="backwards" easing="ease-elastic"></a-animation>
@@ -113,7 +119,8 @@
                 <a-animation attribute="material.color" begin="failure" from="#00ff00" to="#ff0000" dur="1000"></a-animation>
             </a-entity>
 
-            <a-entity cursor id="centerTop" position="0 0.06 -0.1" rotation="31 0 0" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .gameObject; showLine: true">
+            <a-entity cursor id="centerTop" position="0 0.06 -0.1" rotation="31 0 0" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7"
+                raycaster="objects: .gameObject; showLine: true">
                 <a-animation attribute="material.color" begin="mouseenter" from="#fff" to="#00ff00" dur="100"></a-animation>
                 <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#fff" dur="100"></a-animation>
                 <a-animation attribute="scale" begin="success" from="1 1 1" to="1.5 1.5 1.5" dur="1000" fill="backwards" easing="ease-elastic"></a-animation>
@@ -121,7 +128,8 @@
                 <a-animation attribute="material.color" begin="failure" from="#00ff00" to="#ff0000" dur="1000"></a-animation>
             </a-entity>
 
-            <a-entity cursor id="centerBottom" position="0 -0.06 -0.1" rotation="-31 0 0" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .gameObject; showLine: true">
+            <a-entity cursor id="centerBottom" position="0 -0.06 -0.1" rotation="-31 0 0" geometry="primitive: sphere; radius:0.001"
+                material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .gameObject; showLine: true">
                 <a-animation attribute="material.color" begin="mouseenter" from="#fff" to="#00ff00" dur="100"></a-animation>
                 <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#fff" dur="100"></a-animation>
                 <a-animation attribute="scale" begin="success" from="1 1 1" to="1.5 1.5 1.5" dur="1000" fill="backwards" easing="ease-elastic"></a-animation>
@@ -130,7 +138,8 @@
             </a-entity>
 
             <!-- Right grids-->
-            <a-entity cursor id="rightMiddle" position="0.1 0 -0.1" rotation="0 -45 0" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .gameObject; showLine: true">
+            <a-entity cursor id="rightMiddle" position="0.1 0 -0.1" rotation="0 -45 0" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7"
+                raycaster="objects: .gameObject; showLine: true">
                 <a-animation attribute="material.color" begin="mouseenter" from="#fff" to="#00ff00" dur="100"></a-animation>
                 <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#fff" dur="100"></a-animation>
                 <a-animation attribute="scale" begin="success" from="1 1 1" to="1.5 1.5 1.5" dur="1000" fill="backwards" easing="ease-elastic"></a-animation>
@@ -138,7 +147,8 @@
                 <a-animation attribute="material.color" begin="failure" from="#00ff00" to="#ff0000" dur="1000"></a-animation>
             </a-entity>
 
-            <a-entity cursor id="rightTop" position="0.1 0.06 -0.1" rotation="23 -45 0" geometry="primitive: sphere; radius: 0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .gameObject; showLine: true">
+            <a-entity cursor id="rightTop" position="0.1 0.06 -0.1" rotation="23 -45 0" geometry="primitive: sphere; radius: 0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7"
+                raycaster="objects: .gameObject; showLine: true">
                 <a-animation attribute="material.color" begin="mouseenter" from="#fff" to="#00ff00" dur="100"></a-animation>
                 <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#fff" dur="100"></a-animation>
                 <a-animation attribute="scale" begin="success" from="1 1 1" to="1.5 1.5 1.5" dur="1000" fill="backwards" easing="ease-elastic"></a-animation>
@@ -146,7 +156,8 @@
                 <a-animation attribute="material.color" begin="failure" from="#00ff00" to="#ff0000" dur="1000"></a-animation>
             </a-entity>
 
-            <a-entity cursor id="rightBottom" position="0.1 -0.06 -0.1" rotation="-23 -45 0" geometry="primitive: sphere; radius: 0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .gameObject; showLine: true">
+            <a-entity cursor id="rightBottom" position="0.1 -0.06 -0.1" rotation="-23 -45 0" geometry="primitive: sphere; radius: 0.001"
+                material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .gameObject; showLine: true">
                 <a-animation attribute="material.color" begin="mouseenter" from="#fff" to="#00ff00" dur="100"></a-animation>
                 <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#fff" dur="100"></a-animation>
                 <a-animation attribute="scale" begin="success" from="1 1 1" to="1.5 1.5 1.5" dur="1000" fill="backwards" easing="ease-elastic"></a-animation>
@@ -155,7 +166,8 @@
             </a-entity>
 
             <!-- Left grids-->
-            <a-entity cursor id="leftMiddle" position="-0.1 0 -0.1" rotation="0 45 0" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .gameObject; showLine: true">
+            <a-entity cursor id="leftMiddle" position="-0.1 0 -0.1" rotation="0 45 0" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7"
+                raycaster="objects: .gameObject; showLine: true">
                 <a-animation attribute="material.color" begin="mouseenter" from="#fff" to="#00ff00" dur="100"></a-animation>
                 <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#fff" dur="100"></a-animation>
                 <a-animation attribute="scale" begin="success" from="1 1 1" to="1.5 1.5 1.5" dur="1000" fill="backwards" easing="ease-elastic"></a-animation>
@@ -163,7 +175,8 @@
                 <a-animation attribute="material.color" begin="failure" from="#00ff00" to="#ff0000" dur="1000"></a-animation>
             </a-entity>
 
-            <a-entity cursor id="leftTop" position="-0.1 0.06 -0.1" rotation="23 45 0" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .gameObject; showLine: true">
+            <a-entity cursor id="leftTop" position="-0.1 0.06 -0.1" rotation="23 45 0" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7"
+                raycaster="objects: .gameObject; showLine: true">
                 <a-animation attribute="material.color" begin="mouseenter" from="#fff" to="#00ff00" dur="100"></a-animation>
                 <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#fff" dur="100"></a-animation>
                 <a-animation attribute="scale" begin="success" from="1 1 1" to="1.5 1.5 1.5" dur="1000" fill="backwards" easing="ease-elastic"></a-animation>
@@ -171,7 +184,8 @@
                 <a-animation attribute="material.color" begin="failure" from="#00ff00" to="#ff0000" dur="1000"></a-animation>
             </a-entity>
 
-            <a-entity cursor id="leftBottom" position="-0.1 -0.06 -0.1" rotation="-23 45 0" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .gameObject; showLine: true">
+            <a-entity cursor id="leftBottom" position="-0.1 -0.06 -0.1" rotation="-23 45 0" geometry="primitive: sphere; radius:0.001"
+                material="color: white; shader: flat; transparent: true; opacity: 0.7" raycaster="objects: .gameObject; showLine: true">
                 <a-animation attribute="material.color" begin="mouseenter" from="#fff" to="#00ff00" dur="100"></a-animation>
                 <a-animation attribute="material.color" begin="mouseleave" from="#00ff00" to="#fff" dur="100"></a-animation>
                 <a-animation attribute="scale" begin="success" from="1 1 1" to="1.5 1.5 1.5" dur="1000" fill="backwards" easing="ease-elastic"></a-animation>
@@ -184,12 +198,14 @@
                 <a-animation attribute="material.opacity" begin="fadeIn" from="0" to="1" delay="0" dur="100"></a-animation>
             </a-plane>
 
-            <a-entity id="uiCanvasBackground" material="shader: flat; color:#00000" geometry="primitive: plane; width: 4096; height: 2548" scale="0.00011 0.00011 0.00011" position="-0.65 -0.65 -1">
+            <a-entity id="uiCanvasBackground" material="shader: flat; color:#00000" geometry="primitive: plane; width: 4096; height: 2548"
+                scale="0.00011 0.00011 0.00011" position="-0.65 -0.65 -1">
             </a-entity>
-            
-            <a-entity id="uiCanvas" material="shader: flat; src: #helloWorldCanvas" geometry="primitive: plane; width: 4096; height: 2548" scale="0.0001 0.0001 0.0001 " position="-0.65 -0.65 -1" rotation="0 0 0" draw-canvas-rectangles="#helloWorldCanvas">
+
+            <a-entity id="uiCanvas" material="shader: flat; src: #helloWorldCanvas" geometry="primitive: plane; width: 4096; height: 2548"
+                scale="0.0001 0.0001 0.0001 " position="-0.65 -0.65 -1" rotation="0 0 0" draw-canvas-rectangles="#helloWorldCanvas">
             </a-entity>
-            
+
         </a-camera>
     </a-scene>
 </body>

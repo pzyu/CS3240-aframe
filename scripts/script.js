@@ -1,3 +1,8 @@
+window.addEventListener('vrdisplayactivate', function (evt) {
+    console.log("vrdisplayactivate");
+    document.querySelector('a-scene').enterVR();
+});
+
 // Add listener to models
 AFRAME.registerComponent('cursor-listener', {
     init: function () {

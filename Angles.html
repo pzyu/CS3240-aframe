@@ -22,8 +22,6 @@
             <img id="thumb_landing" src="assets/images/background.png">
 
             <a-asset-item id="model_robot" src="assets/models/animated_robot/scene.gltf"></a-asset-item>
-
-            <canvas width="4096" height="2048" id="helloWorldCanvas" crossOrigin="anonymous"></canvas>
         </a-assets>
 
 
@@ -39,6 +37,12 @@
 
         <!-- Player -->
         <a-entity camera="userHeight: 1.6" universal-controls="movementControls: checkpoint" checkpoint-controls="mode: animate">
+            <!--Instructions-->`
+            <a-entity id="instructions" text="wrapCount:30;width:1;align:center;color:#fff;font:mozillavr;value:Explore different angles!\nTap on the green circles to move there!"
+                position="0 0.5 -1" rotation="0 0 0">
+                <a-animation attribute="text.opacity" delay="5000" to="0" dur="1000"></a-animation>
+            </a-entity>
+            
             <!--Center grids-->
             <a-entity cursor id="centerMiddle" mousedown-check position="0 0 -0.1" geometry="primitive: sphere; radius:0.001" material="color: white; shader: flat; transparent: true; opacity: 0.7"
                 raycaster="objects: .clickable, .gameObject, #checkpoints">
@@ -48,17 +52,15 @@
                 <a-animation attribute="material.color" begin="failure" from="#ffffff" to="#ff0000" dur="1000" fill="backwards"></a-animation>
             </a-entity>
 
-            <a-entity id="uiCanvasBackground" material="shader: flat; color:#00000" geometry="primitive: plane; width: 4096; height: 2548"
-                scale="0.00011 0.00011 0.00011" position="-0.65 -0.65 -1">
-            </a-entity>
-
-            <a-entity id="uiCanvas" material="shader: flat; src: #helloWorldCanvas" geometry="primitive: plane; width: 4096; height: 2548"
-                scale="0.0001 0.0001 0.0001 " position="-0.65 -0.65 -1" rotation="0 0 0" draw-canvas-rectangles="#helloWorldCanvas">
-            </a-entity>
-
             <a-plane id="transition" position="0 0 -0.1" rotation="0 0 0" material="shader: flat" color="white" material="transparent: true; opacity: 0;">
                 <a-animation attribute="material.opacity" begin="fadeOut" from="1" to="0" delay="0" dur="100"></a-animation>
                 <a-animation attribute="material.opacity" begin="fadeIn" from="0" to="1" delay="0" dur="100"></a-animation>
+                
+                <a-animation attribute="material.opacity" begin="successFadeOut" from="0.25" to="0" delay="0" dur="500"></a-animation>
+                <a-animation attribute="material.opacity" begin="successFadeIn" from="0" to="0.25" delay="0" dur="500"></a-animation>
+                            
+                <a-animation attribute="material.color" begin="success" from="#ffffff" to="#00ff00" dur="500"></a-animation>
+                <a-animation attribute="material.color" begin="failure" from="#ffffff" to="#ff0000" dur="500"></a-animation>
             </a-plane>
         </a-entity>
 
@@ -75,16 +77,16 @@
 
         <!-- Checkpoints -->
         <a-entity id="checkpoints" position="1 0 1">
-            <a-cylinder id="robot_head_checkpoint" checkpoint="offset:0 1.6 0" radius="0.3" opacity="0.3" height="0.05" position="0.1 4.1 0.713"
+            <a-cylinder id="robot_head_checkpoint" checkpoint="offset:0 1.6 0" radius="0.5" opacity="0.3" height="0.05" position="0.1 4.1 0.713"
                 color="#00ff00"></a-cylinder>
 
-            <a-cylinder id="robot_feet_checkpoint" checkpoint="offset:0 1.6 0" radius="0.3" height="0.05" opacity="0.3" position="-1.859 0 0.713"
+            <a-cylinder id="robot_feet_checkpoint" checkpoint="offset:0 1.6 0" radius="0.5" height="0.05" opacity="0.3" position="-1.859 0 0.713"
                 color="#00ff00"></a-cylinder>
 
-            <a-cylinder id="robot_head_west_checkpoint" checkpoint="offset:0 1.6 0" radius="0.3" opacity="0.3" height="0.05" position="-3.21 4.1 -0.809"
+            <a-cylinder id="robot_head_west_checkpoint" checkpoint="offset:0 1.6 0" radius="0.5" opacity="0.3" height="0.05" position="-3.21 4.1 -0.809"
                 color="#00ff00"></a-cylinder>
 
-            <a-cylinder id="robot_feet_west_checkpoint" checkpoint="offset:0 1.6 0" radius="0.3" opacity="0.3" height="0.05" position="-4.6 0 -0.809"
+            <a-cylinder id="robot_feet_west_checkpoint" checkpoint="offset:0 1.6 0" radius="0.5" opacity="0.3" height="0.05" position="-4.6 0 -0.809"
                 color="#00ff00"></a-cylinder>
         </a-entity>
         <!-- End of Checkpoints -->

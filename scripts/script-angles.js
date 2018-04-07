@@ -1,7 +1,12 @@
+window.addEventListener('vrdisplayactivate', function (evt) {
+    console.log("vrdisplayactivate");
+});
+
 // Add listener to models
 AFRAME.registerComponent('cursor-listener', {
     init: function () {
         this.el.addEventListener('click', function (evt) {
+            console.log(evt.target);
             isValidPhoto = true;
             //transition(evt.detail.target.getAttribute("data-link-to"));
         });
@@ -20,7 +25,7 @@ AFRAME.registerComponent('collider-check', {
                     isCatVisible = event.detail.els[0].getAttribute("id") == "frame" && event.detail.els[1].getAttribute("class") == "player";
                 }
             }
-            
+
             if (event.detail.target.id == "bird-raycaster") {
                 if (event.detail.els[0] != null && event.detail.els[1] != null) {
                     isBirdVisible = event.detail.els[0].getAttribute("id") == "frame" && event.detail.els[1].getAttribute("class") == "player";
@@ -41,34 +46,15 @@ AFRAME.registerComponent('mousedown-check', {
                 if (isValidPhoto) {
                     console.log("Valid photo!");
                     isValidPhoto = false;
-                    fadeInAndOut();
-                    var test = document.querySelector('a-scene').components.screenshot.getCanvas('perspective');
-
-                    imgData = test.getContext("2d").getImageData(0, 0, test.width, test.height);
-                    myCanvas.putImageData(imgData, 0, 0);
-                    mouse.emit("success");
+                    transitionPlane.emit('success');
+                    photoFadeInAndOut();
                 } else {
                     console.log("Invalid!");
-                    mouse.emit("failure");
+                    transitionPlane.emit('failure');
+                    photoFadeInAndOut();
                 }
             }, 100);
         });
-    }
-});
-
-var myCanvas;
-
-AFRAME.registerComponent('draw-canvas-rectangles', {
-    schema: {
-        type: 'selector'
-    },
-
-    init: function () {
-        var canvas = this.canvas = this.data;
-        myCanvas = this.ctx = canvas.getContext('2d');
-        
-        myCanvas.strokeStyle = "#FF0000";
-        myCanvas.strokeRect(0, 0, 4096, 2048);
     }
 });
 
@@ -76,20 +62,13 @@ AFRAME.registerComponent('draw-canvas-rectangles', {
 var transitionPlane;
 var currentScene = "#scene_landing";
 var mainCamera;
-var mouse; 
-
-
-var canvasPlane;
-var canvasBackground;
+var mouse;
 
 // Init on load
 window.onload = function (e) {
     transitionPlane = document.querySelector('#transition');
     mainCamera = document.querySelector("#camera");
     mouse = document.querySelector("#centerMiddle");
-    
-    canvasPlane = document.querySelector("#uiCanvas");
-    canvasBackground = document.querySelector("#uiCanvasBackground");
 
     // Offset with some delay otherwise value will get overriden before it's complete
     transitionDuration = 500;
@@ -109,9 +88,6 @@ function fadeOut() {
 
 function fadeIn() {
     if (transitionPlane.getAttribute("material").opacity == 0) {
-        canvasPlane.setAttribute("visible", false);
-        canvasBackground.setAttribute("visible", false);
-        
         transitionPlane.setAttribute("rotation", "0 0 0");
         transitionPlane.emit('fadeIn');
     }
@@ -119,13 +95,28 @@ function fadeIn() {
 
 function setBackwards() {
     transitionPlane.setAttribute("rotation", "0 180 0");
-    canvasPlane.setAttribute("visible", true);
-    canvasBackground.setAttribute("visible", true);
 }
 
 function fadeInAndOut() {
     fadeIn();
     setTimeout(fadeOut, 400);
+}
+
+function photoFadeInAndOut() {
+    photoFadeIn();
+    setTimeout(photoFadeOut, 400);
+}
+
+function photoFadeOut() {
+    transitionPlane.emit('successFadeOut');
+    setTimeout(setBackwards, 1000);
+}
+
+function photoFadeIn() {
+    if (transitionPlane.getAttribute("material").opacity == 0) {
+        transitionPlane.setAttribute("rotation", "0 0 0");
+        transitionPlane.emit('successFadeIn');
+    }
 }
 
 // Fades out and fades in

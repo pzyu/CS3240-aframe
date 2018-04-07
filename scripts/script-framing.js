@@ -1,3 +1,7 @@
+window.addEventListener('vrdisplayactivate', function (evt) {
+    console.log("vrdisplayactivate");
+});
+
 // Add listener to models
 AFRAME.registerComponent('cursor-listener', {
     init: function () {
@@ -63,15 +67,12 @@ AFRAME.registerComponent('mousedown-check', {
                     // Only check if photo is valid on cursor up
                     if (isCatVisible || isBirdVisible) {
                         console.log("Valid photo!");
-                        fadeInAndOut();
-                        var test = document.querySelector('a-scene').components.screenshot.getCanvas('perspective');
-
-                        imgData = test.getContext("2d").getImageData(0, 0, test.width, test.height);
-                        myCanvas.putImageData(imgData, 0, 0);
-                        mouse.emit("success");
+                        transitionPlane.emit('success');
+                        photoFadeInAndOut();
                     } else {
                         console.log("Invalid!");
-                        mouse.emit("failure");
+                        transitionPlane.emit('failure');
+                        photoFadeInAndOut();
                     }
                 }, 100);
             }
@@ -80,41 +81,23 @@ AFRAME.registerComponent('mousedown-check', {
     }
 });
 
-var myCanvas;
-
-AFRAME.registerComponent('draw-canvas-rectangles', {
-    schema: {
-        type: 'selector'
-    },
-
-    init: function () {
-        var canvas = this.canvas = this.data;
-        myCanvas = this.ctx = canvas.getContext('2d');
-    }
-});
-
 // Global so we don't need to keep querying
 var transitionPlane;
 var currentScene = "#scene_landing";
 var mainCamera;
 var mouse; 
-var canvasPlane;
-var canvasBackground;
 
 // Init on load
 window.onload = function (e) {
     transitionPlane = document.querySelector('#transition');
     mainCamera = document.querySelector("#camera");
     mouse = document.querySelector("#centerMiddle");
-    
-    canvasPlane = document.querySelector("#uiCanvas");
-    canvasBackground = document.querySelector("#uiCanvasBackground");
 
     // Offset with some delay otherwise value will get overriden before it's complete
     transitionDuration = 500;
     setTimeout(fadeOut, 100);
     
-    setTimeout(setPosition, 100);
+    setTimeout(setPosition, 1000);
 }
 
 function setPosition() {
@@ -134,9 +117,6 @@ function fadeOut() {
 
 function fadeIn() {
     if (transitionPlane.getAttribute("material").opacity == 0) {
-        canvasPlane.setAttribute("visible", false);
-        canvasBackground.setAttribute("visible", false);
-        
         transitionPlane.setAttribute("rotation", "0 0 0");
         transitionPlane.emit('fadeIn');
     }
@@ -144,13 +124,28 @@ function fadeIn() {
 
 function setBackwards() {
     transitionPlane.setAttribute("rotation", "0 180 0");
-    canvasPlane.setAttribute("visible", true);
-    canvasBackground.setAttribute("visible", true);
 }
 
 function fadeInAndOut() {
     fadeIn();
     setTimeout(fadeOut, 400);
+}
+
+function photoFadeInAndOut() {
+    photoFadeIn();
+    setTimeout(photoFadeOut, 400);
+}
+
+function photoFadeOut() {
+    transitionPlane.emit('successFadeOut');
+    setTimeout(setBackwards, 1000);
+}
+
+function photoFadeIn() {
+    if (transitionPlane.getAttribute("material").opacity == 0) {
+        transitionPlane.setAttribute("rotation", "0 0 0");
+        transitionPlane.emit('successFadeIn');
+    }
 }
 
 // Fades out and fades in

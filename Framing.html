@@ -20,20 +20,24 @@
         <a-assets>
             <img id="img_shadow" src="assets/images/radial-shadow-2.png">
             <img id="thumb_landing" src="assets/images/background.png">
-
-            <canvas width="4096" height="2048" id="helloWorldCanvas" crossOrigin="anonymous"></canvas>
         </a-assets>
 
         <a-grid position="0 -0.1 0" static-body></a-grid>
 
         <!-- Environment -->
-        <a-entity environment="preset: forest; playArea: 1; ground: hills;"></a-entity>
+        <a-entity environment="preset: yavapai; playArea: 1; ground: hills;"></a-entity>
 
         <!-- Sky -->
         <a-sky color="#AADDF0"></a-sky>
 
         <a-entity id="camera" camera="userHeight: 1.6" universal-controls kinematic-body="shape:cylinder; radius:0.5" position="0 1.6 -8"
             rotation="0 180 0">
+            <!--Instructions-->`
+            <a-entity id="instructions" text="wrapCount:30;width:1;align:center;color:#fff;font:mozillavr;value:Take a picture where the cat or the bird is being framed within something!"
+                position="0 0.5 -1" rotation="0 0 0">
+                <a-animation attribute="text.opacity" delay="5000" to="0" dur="1000"></a-animation>
+            </a-entity>
+            
             <a-entity class="player" geometry="primitive: sphere; radius:0.5" material="transparent: true; opacity:0;" position="0 0.1 0"></a-entity>
 
             <!--Center grids-->
@@ -45,17 +49,15 @@
                 <a-animation attribute="material.color" begin="failure" from="#ffffff" to="#ff0000" dur="1000" fill="backwards"></a-animation>
             </a-entity>
 
-            <a-entity id="uiCanvasBackground" material="shader: flat; color:#00000" geometry="primitive: plane; width: 4096; height: 2548"
-                scale="0.00011 0.00011 0.00011" position="-0.65 -0.65 -1">
-            </a-entity>
-
-            <a-entity id="uiCanvas" material="shader: flat; src: #helloWorldCanvas" geometry="primitive: plane; width: 4096; height: 2548"
-                scale="0.0001 0.0001 0.0001 " position="-0.65 -0.65 -1" rotation="0 0 0" draw-canvas-rectangles="#helloWorldCanvas">
-            </a-entity>
-
             <a-plane id="transition" position="0 0 -0.1" rotation="0 0 0" material="shader: flat" color="white" material="transparent: true; opacity: 0;">
                 <a-animation attribute="material.opacity" begin="fadeOut" from="1" to="0" delay="0" dur="100"></a-animation>
                 <a-animation attribute="material.opacity" begin="fadeIn" from="0" to="1" delay="0" dur="100"></a-animation>
+                
+                <a-animation attribute="material.opacity" begin="successFadeOut" from="0.25" to="0" delay="0" dur="500"></a-animation>
+                <a-animation attribute="material.opacity" begin="successFadeIn" from="0" to="0.25" delay="0" dur="500"></a-animation>
+                            
+                <a-animation attribute="material.color" begin="success" from="#ffffff" to="#00ff00" dur="500"></a-animation>
+                <a-animation attribute="material.color" begin="failure" from="#ffffff" to="#ff0000" dur="500"></a-animation>
             </a-plane>
         </a-entity>
 
@@ -69,11 +71,13 @@
             <a-entity class="clickable" cursor-listener data-link-to="#scene_landing" id="portal_main" scale="0.7 0.7 0.7" position="-2 1 -13"
                 link="href: index.html; title: Go back to main!; image: assets/images/portal_background/forest.jpg" highlightedColor="#24CAFF"></a-entity>
 
-        <!--Instructions-->`
+<!--
+        Instructions`
         <a-image id="Instructions" src="assets/images/framing_example.jpg" position="1.25 2 -2.75" opacity="1" geometry="primitive: plane; height:2; width:3;">
             <a-entity text="wrapCount:30;width:2.92;align:center;color:#000;font:mozillavr;value:Take a picture where the cat or the bird is being framed by something"
                 position="0 0.6 -0.1" rotation="0 180 0"></a-entity>
         </a-image>
+-->
 
         <!--Title-->
         <!--

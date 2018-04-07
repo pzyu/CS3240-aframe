@@ -73,6 +73,8 @@ window.onload = function (e) {
     // Offset with some delay otherwise value will get overriden before it's complete
     transitionDuration = 500;
     setTimeout(fadeOut, 100);
+    
+    document.querySelector('a-scene').enterVR();
 }
 
 function getPageName() {

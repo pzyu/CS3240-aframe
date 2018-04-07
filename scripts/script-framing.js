@@ -98,6 +98,7 @@ window.onload = function (e) {
     setTimeout(fadeOut, 100);
     
     setTimeout(setPosition, 1000);
+    document.querySelector('a-scene').enterVR();
 }
 
 function setPosition() {

@@ -66,6 +66,8 @@ window.onload = function (e) {
     if (getPageName() == "index.html") {
         hideScene("#scene_portals");
     }
+    
+    document.querySelector('a-scene').enterVR();
 }
 
 function getPageName() {

@@ -7,8 +7,12 @@ window.addEventListener('vrdisplayactivate', function (evt) {
 AFRAME.registerComponent('cursor-listener', {
     init: function () {
         this.el.addEventListener('click', function (evt) {
-            console.log(evt.target);
-            isValidPhoto = true;
+            if (evt.target.getAttribute("radius") == 0.5) {
+                clickedOnPortal = true;
+            } else {
+                clickedOnPortal = false;
+                isValidPhoto = evt.target.getAttribute("class") == "gameObject";
+            }
             //transition(evt.detail.target.getAttribute("data-link-to"));
         });
     }
@@ -44,12 +48,12 @@ AFRAME.registerComponent('mousedown-check', {
         this.el.addEventListener('mouseup', function (evt) {
             setTimeout(function () {
                 // Only check if photo is valid on cursor up
-                if (isValidPhoto) {
+                if (isValidPhoto && !clickedOnPortal) {
                     console.log("Valid photo!");
                     isValidPhoto = false;
                     transitionPlane.emit('success');
                     photoFadeInAndOut();
-                } else {
+                } else if(!isValidPhoto && !clickedOnPortal) {
                     console.log("Invalid!");
                     transitionPlane.emit('failure');
                     photoFadeInAndOut();
@@ -64,6 +68,7 @@ var transitionPlane;
 var currentScene = "#scene_landing";
 var mainCamera;
 var mouse;
+var clickedOnPortal;
 
 // Init on load
 window.onload = function (e) {
@@ -74,6 +79,8 @@ window.onload = function (e) {
     // Offset with some delay otherwise value will get overriden before it's complete
     transitionDuration = 500;
     setTimeout(fadeOut, 100);
+    
+    clickedOnPortal = false;
     
     document.querySelector('a-scene').enterVR();
 }

@@ -19,6 +19,8 @@
             <a-asset-item id="small_bug" src="assets/models/small_glytchbug/scene.gltf"></a-asset-item>
 
             <a-asset-item id="small_dragon" src="assets/models/small_dragon/scene.gltf"></a-asset-item>
+            
+            <a-asset-item id="signboard" src="assets/models/sign_board/scene.gltf"></a-asset-item>
 
             <!--Logo-->
             <img id="img_logo" src="assets/images/title.png">
@@ -38,30 +40,20 @@
         <a-entity id="scene_landing">
             <!--Background and lights-->
             <a-light type="directional" color="#fff" intensity="0.1" position="-1 2 1"></a-light>
-            <!--<a-sky id="image-360" radius="10" src="#city"></a-sky>-->
-
-            <!--Cylinder-->
-            <!-- <a-entity>
-                    <a-cylinder position="0 0.5 0" radius="4" height="1.6" side="back" open-ended="true" color="#FFF"></a-cylinder>
-                </a-entity> -->
-
-            <!--Logo-->
-            <a-curvedimage src="#img_logo" radius="5" theta-length="36" height="2" position="0 2.6 0" opacity="1.0">
-                <a-animation attribute="rotation" from="0 10 0" to="0 200 0" delay="500" dur="1000"></a-animation>
-            </a-curvedimage>
-
-            <!--Pick-->
-            <a-curvedimage src="#img_pick" radius="5" theta-length="42" height="0.5" position="0 3 0" opacity="1.0">
-                <a-animation attribute="rotation" from="0 10 0" to="0 125 0" delay="1000" dur="1000"></a-animation>
-            </a-curvedimage>
-
-            <!--Instructions-->
-            <a-curvedimage src="#img_instructions" radius="5" theta-length="24" height="1" position="0 1 0" opacity="1.0">
-                <a-animation attribute="rotation" from="0 360 0" to="0 212 0" delay="1000" dur="1000"></a-animation>
-            </a-curvedimage>
+            
+            <a-entity text="wrapCount:30;width:4;align:left;color:#000;font:roboto;value:Photographic\nComposition"
+                position="-1.935 2.314 -4.851" rotation="-17 45 0">
+            </a-entity>
+            
+            <a-entity text="wrapCount:30;width:2;align:left;color:#000;font:roboto;value:Take a look around\n\n Hold down to move forward\n\n Aim at the dragon and tap\nonce to take a photo"
+                position="-2.476 1.589 -4.0" rotation="-17 45 0">
+            </a-entity>
+            
+            <a-entity gltf-model="#signboard" position="-3 0 -3" rotation="0 45 0" scale="0.02 0.02 0.02">
+            </a-entity>
 
             <!--Model-->
-            <a-cylinder cursor-listener class="clickable" scale="0.01 0.01 0.01" position="1 0.3 -2.6" opacity="0.0" height="100" radius="50" rotation="0 -11 0">
+            <a-cylinder cursor-listener class="clickable" scale="0.01 0.01 0.01" position="1.9 0.3 -3.5" opacity="0.0" height="100" radius="50" rotation="0 -25 0">
                 <a-entity gltf-model="#small_dragon" animation-mixer="clip: Take 001; loop: repeat" data-link-to="#scene_portals">
 
                     <a-image src="#img_shadow" position="0 -20 0" rotation="-90 0 0" scale="50 50 50"></a-image>
@@ -71,6 +63,7 @@
                 </a-entity>
             </a-cylinder>
 
+<!--
             <a-cylinder cursor-listener class="clickable" scale=".3 .3 .3" position="3 1.3 -1.9" opacity="0.0" height="100" radius="50">
                 <a-entity gltf-model="#small_bug" data-link-to="#scene_portals" animation-mixer="clip: SMALL BUGG IDLE; loop: repeat" position="-1.24 0.062 0.524" rotation="0 -27 0">
 
@@ -80,6 +73,7 @@
                     <a-animation attribute="scale" begin="mouseleave" dur="300" to="1 1 1"></a-animation>
                 </a-entity>
             </a-cylinder>
+-->
         </a-entity>
 
         <!-- Portals -->
@@ -89,8 +83,7 @@
                 link="href: Framing.html; title:Framing; image: assets/images/portal_background/framing.png" highlightedColor="#24CAFF"></a-entity>
 
             <a-entity class="clickable" cursor-listener data-link-to="#scene_landing" id="portal_angles" scale="0.7 0.7 0.7" position="2 1 -2.5"
-                link="href: Angles.html; title:Angles; image: assets/images/portal_background/forest.jpg" highlightedColor="#24CAFF"></a-entity>
-
+                link="href: Angles.html; title:Angles; image: assets/images/portal_background/angles.jpg" highlightedColor="#24CAFF"></a-entity>
 
             <a-entity class="clickable" cursor-listener data-link-to="#scene_landing" id="portal_rot" scale="0.7 0.7 0.7" position="-2 1 -3"
                 link="href: ROT.html; title:Rule of Thirds; image: assets/images/portal_background/forest.jpg" highlightedColor="#24CAFF"></a-entity>

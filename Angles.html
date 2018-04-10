@@ -25,7 +25,7 @@
         </a-assets>
 
 
-        <a-cylinder cursor-listener class="gameObject" scale="1 1 1" position="-0.75 0 -4" height="10" radius="2" material="transparent: true; opacity: 0.01">
+        <a-cylinder cursor-listener class="gameObject" scale="1 1 1" position="-0.75 0 -4" height="10" radius="2" material="transparent: true; opacity: 0.0001">
             <a-entity id="robot" scale="0.4 0.4 0.4" position="0 0 -2" animation-mixer="clip: IDLE; loop: pingpong" gltf-model="#model_robot"></a-entity>
         </a-cylinder>
 
@@ -77,16 +77,16 @@
 
         <!-- Checkpoints -->
         <a-entity id="checkpoints" position="1 0 1">
-            <a-cylinder id="robot_head_checkpoint" checkpoint="offset:0 1.6 0" radius="0.5" opacity="0.3" height="0.05" position="0.1 4.1 0.713"
+            <a-cylinder id="robot_head_checkpoint" cursor-listener checkpoint="offset:0 1.6 0" radius="0.5" opacity="0.3" height="0.05" position="0.1 4.1 0.713"
                 color="#00ff00"></a-cylinder>
 
-            <a-cylinder id="robot_feet_checkpoint" checkpoint="offset:0 1.6 0" radius="0.5" height="0.05" opacity="0.3" position="-1.859 0 0.713"
+            <a-cylinder id="robot_feet_checkpoint" cursor-listener checkpoint="offset:0 1.6 0" radius="0.5" height="0.05" opacity="0.3" position="-1.859 0 0.713"
                 color="#00ff00"></a-cylinder>
 
-            <a-cylinder id="robot_head_west_checkpoint" checkpoint="offset:0 1.6 0" radius="0.5" opacity="0.3" height="0.05" position="-3.21 4.1 -0.809"
+            <a-cylinder id="robot_head_west_checkpoint" cursor-listener checkpoint="offset:0 1.6 0" radius="0.5" opacity="0.3" height="0.05" position="-3.21 4.1 -0.809"
                 color="#00ff00"></a-cylinder>
 
-            <a-cylinder id="robot_feet_west_checkpoint" checkpoint="offset:0 1.6 0" radius="0.5" opacity="0.3" height="0.05" position="-4.6 0 -0.809"
+            <a-cylinder id="robot_feet_west_checkpoint" cursor-listener checkpoint="offset:0 1.6 0" radius="0.5" opacity="0.3" height="0.05" position="-4.6 0 -0.809"
                 color="#00ff00"></a-cylinder>
         </a-entity>
         <!-- End of Checkpoints -->
